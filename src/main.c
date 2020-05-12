@@ -8,10 +8,9 @@ int main(int argc, char *argv[]){
 	
 	atexit(cleanup);
 
-	Cell **grid = calloc(ROWS, sizeof *grid);
+	Cell **grid = initGrid();
 
 	for(int i=0; i<ROWS; i++){
-		grid[i] = calloc(COLS, sizeof **grid);
 		for(int j=0; j<COLS; j++){
 			grid[i][j].rect.y = i*CELL_SIZE+1;
 			grid[i][j].rect.x = j*CELL_SIZE+1;
@@ -26,10 +25,9 @@ int main(int argc, char *argv[]){
 		
 		doInput();
 
-		Cell **next = calloc(ROWS, sizeof *next);
+		Cell **next = initGrid();
 
 		for(int i=0; i<ROWS; i++){
-			next[i] = calloc(COLS, sizeof **next);
 			for(int j=0; j<COLS; j++){
 				next[i][j] = grid[i][j];
 				int sum = getNeighbourSum(grid, i, j);
@@ -44,7 +42,6 @@ int main(int argc, char *argv[]){
 
 		free(grid);
 		grid = next;
-		// next = NULL;
 
 		for(int i=0; i<ROWS; i++){
 			for(int j=0; j<COLS; j++){
@@ -61,6 +58,14 @@ int main(int argc, char *argv[]){
 	}
 
 	return 0;
+}
+
+Cell **initGrid(void){
+	Cell **grid = calloc(ROWS, sizeof *grid);
+	for(int i=0; i<ROWS; i++){
+		grid[i] = calloc(COLS, sizeof **grid);
+	}
+	return grid;
 }
 
 int getNeighbourSum(Cell **grid, int i, int j){
