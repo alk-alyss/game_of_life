@@ -15,7 +15,4 @@ int getNeighbourSum(Cell **grid, int i, int j);
 App app;
 
 Color white = {255, 255, 255, 255};
-Color black = {0, 0, 0, 0};
-
-int cols = (int) (SCREEN_WIDTH/CELL_SIZE);
-int rows = (int) (SCREEN_HEIGHT/CELL_SIZE);
+Color black = {0, 0, 0, 255};
