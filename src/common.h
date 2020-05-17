@@ -13,7 +13,7 @@
 #include "defs.h"
 #include "structs.h"
 
-App app;
+extern App app;
 
 extern Color white;
 extern Color black;

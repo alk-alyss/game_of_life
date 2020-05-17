@@ -7,4 +7,6 @@
 #include "input.h"
 #include "grid.h"
 
+App app;
+
 #endif
