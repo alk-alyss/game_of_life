@@ -1,3 +1,9 @@
+#ifndef INIT_H
+#define INIT_H
+
 #include "common.h"
 
-extern App app;
+void initSDL(void);
+void cleanup(void);
+
+#endif

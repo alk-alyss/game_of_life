@@ -1,8 +1,5 @@
 #include "grid.h"
 
-Color w = {255, 255, 255, 255};
-Color b = {0, 0, 0, 255};
-
 Cell **initGrid(void){
 	Cell **grid = calloc(ROWS, sizeof *grid);
 	for(int i=0; i<ROWS; i++){
@@ -61,8 +58,8 @@ void drawGrid(Cell **grid){
 	for(int i=0; i<ROWS; i++){
 		for(int j=0; j<COLS; j++){
 			Color color;
-			if(grid[i][j].alive) color = w;
-			else color = b;
+			if(grid[i][j].alive) color = white;
+			else color = black;
 			drawRect(grid[i][j].rect, color);
 		}
 	}

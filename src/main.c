@@ -15,7 +15,7 @@ int main(int argc, char *argv[]){
 	while(1){
 		prepareScene();
 		
-		doInput();
+		mainInput();
 
 		grid = nextState(grid);
 

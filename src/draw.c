@@ -1,5 +1,8 @@
 #include "draw.h"
 
+Color white = {255, 255, 255 ,255};
+Color black = {0, 0, 0 ,255};
+
 void prepareScene(void){
 	SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255);
 	SDL_RenderClear(app.renderer);
