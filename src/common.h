@@ -14,6 +14,7 @@
 #include "structs.h"
 
 extern App app;
+extern int menuActive;
 
 extern SDL_Color White;
 extern SDL_Color Black;

@@ -4,6 +4,6 @@
 #include "common.h"
 
 void mainInput(void);
-void menuInput(void);
+void menuInput(SDL_Rect *buttons);
 
 #endif

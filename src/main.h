@@ -6,6 +6,7 @@
 #include "draw.h"
 #include "input.h"
 #include "grid.h"
+#include "menu.h"
 
 App app;
 

@@ -8,12 +8,14 @@ int main(int argc, char *argv[]){
 	
 	atexit(cleanup);
 
+	menu();
+
 	Cell **grid = initGrid();
 
 	randomStartingState(grid);
 
 	while(1){
-		prepareScene();
+		prepareScene(Black);
 		
 		mainInput();
 

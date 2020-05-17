@@ -24,7 +24,7 @@ vpath %.h $(SEARCHPATH)
 DEPS = defs.h structs.h
 
 # Required objects
-FILES = draw.c init.c input.c grid.c main.c
+FILES = draw.c init.c input.c grid.c main.c menu.c
 OBJS = $(patsubst %,$(OUT)/%,$(FILES:.c=.o))
 
 # Top-level rule to create the program.

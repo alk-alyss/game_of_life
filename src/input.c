@@ -15,7 +15,7 @@ void mainInput(void){
 	}
 }
 
-void menuInput(void){
+void menuInput(SDL_Rect *buttons){
 	SDL_Event event;
 	
 	while(SDL_PollEvent(&event)){
