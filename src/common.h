@@ -9,12 +9,15 @@
 #include "time.h"
 
 #include "SDL2/SDL.h"
+#include "SDL2/SDL_ttf.h"
 
 #include "defs.h"
 #include "structs.h"
 
 extern App app;
+
 extern int menuActive;
+extern TTF_Font *menuFont;
 
 extern SDL_Color White;
 extern SDL_Color Black;
