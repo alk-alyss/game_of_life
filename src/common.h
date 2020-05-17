@@ -15,7 +15,7 @@
 
 extern App app;
 
-extern Color white;
-extern Color black;
+extern SDL_Color White;
+extern SDL_Color Black;
 
 #endif

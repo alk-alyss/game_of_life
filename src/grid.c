@@ -57,9 +57,9 @@ Cell **nextState(Cell **grid){
 void drawGrid(Cell **grid){
 	for(int i=0; i<ROWS; i++){
 		for(int j=0; j<COLS; j++){
-			Color color;
-			if(grid[i][j].alive) color = white;
-			else color = black;
+			SDL_Color color;
+			if(grid[i][j].alive) color = White;
+			else color = Black;
 			drawRect(grid[i][j].rect, color);
 		}
 	}

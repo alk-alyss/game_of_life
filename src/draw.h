@@ -4,7 +4,7 @@
 #include "common.h"
 
 void prepareScene(void);
-void drawRect(SDL_Rect rect, Color c);
+void drawRect(SDL_Rect rect, SDL_Color c);
 void presentScene(void);
 
 #endif
