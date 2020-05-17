@@ -1,7 +1,8 @@
 #include "menu.h"
 
+int menuActive = 1;
+
 void menu(void){
-	int menuActive = 1;
 	
 	SDL_Rect *buttons = calloc(MENU_BUTTONS, sizeof *buttons);
 	for(int i=0; i<MENU_BUTTONS; i++){

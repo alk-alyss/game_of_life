@@ -24,6 +24,12 @@ void menuInput(SDL_Rect *buttons){
 				exit(0);
 				break;
 
+			case SDL_MOUSEBUTTONDOWN: ;
+				SDL_Point mouse = {event.button.x, event.button.y};
+				if(SDL_PointInRect(&mouse, &buttons[0]))
+					menuActive = 0;
+				break;
+
 			default:
 				break;
 		}

@@ -1,5 +1,7 @@
 #include "main.h"
 
+App app;
+
 int main(int argc, char *argv[]){
 	srand(time(0));
 	memset(&app, 0, sizeof(App));

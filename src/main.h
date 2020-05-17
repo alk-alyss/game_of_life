@@ -8,6 +8,4 @@
 #include "grid.h"
 #include "menu.h"
 
-App app;
-
 #endif
