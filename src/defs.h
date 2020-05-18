@@ -8,6 +8,6 @@
 #define ROWS SCREEN_HEIGHT/CELL_SIZE
 #define COLS SCREEN_WIDTH/CELL_SIZE
 
-#define MENU_BUTTONS 2
+#define MENU_BUTTONS 3
 
 #endif

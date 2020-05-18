@@ -35,7 +35,7 @@ void initSDL(void){
 		exit(2);
 	}
 
-	menuFont = TTF_OpenFont("arial.ttf", 25);
+	menuFont = TTF_OpenFont("arial.ttf", 50);
 
 	if(menuFont == NULL) {
 		printf("TTF_OpenFont: %s\n", TTF_GetError());
