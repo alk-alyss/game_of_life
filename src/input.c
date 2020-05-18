@@ -78,6 +78,8 @@ void gridInput(Cell **grid){
 							}
 						}
 						break;
+					case SDLK_g:
+						addGosperGun(grid);
 					default:
 						break;
 				}

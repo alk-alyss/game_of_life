@@ -92,3 +92,50 @@ SDL_Point screenToGrid(Sint32 x, Sint32 y){
 	index.y = (int) y/CELL_SIZE;
 	return index;
 }
+
+void addGosperGun(Cell **grid){
+	grid[0][25].alive = 1;
+
+	grid[1][23].alive = 1;
+	grid[1][25].alive = 1;
+
+	grid[2][13].alive = 1;
+	grid[2][14].alive = 1;
+	grid[2][21].alive = 1;
+	grid[2][22].alive = 1;
+	grid[2][35].alive = 1;
+	grid[2][36].alive = 1;
+
+	grid[3][12].alive = 1;
+	grid[3][16].alive = 1;
+	grid[3][21].alive = 1;
+	grid[3][22].alive = 1;
+	grid[3][35].alive = 1;
+	grid[3][36].alive = 1;
+
+	grid[4][1].alive = 1;
+	grid[4][2].alive = 1;
+	grid[4][11].alive = 1;
+	grid[4][17].alive = 1;
+	grid[4][21].alive = 1;
+	grid[4][22].alive = 1;
+
+	grid[5][1].alive = 1;
+	grid[5][2].alive = 1;
+	grid[5][11].alive = 1;
+	grid[5][15].alive = 1;
+	grid[5][17].alive = 1;
+	grid[5][18].alive = 1;
+	grid[5][23].alive = 1;
+	grid[5][25].alive = 1;
+
+	grid[6][11].alive = 1;
+	grid[6][17].alive = 1;
+	grid[6][25].alive = 1;
+
+	grid[7][12].alive = 1;
+	grid[7][16].alive = 1;
+
+	grid[8][13].alive = 1;
+	grid[8][14].alive = 1;
+}
