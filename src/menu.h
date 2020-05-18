@@ -5,6 +5,6 @@
 #include "draw.h"
 #include "input.h"
 
-void menu(void);
+int menu(void);
 
 #endif

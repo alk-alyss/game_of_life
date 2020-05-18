@@ -1,22 +1,25 @@
 #include "menu.h"
 
-int menuActive = 1;
+int menuActive;
 
-void menu(void){
+int menu(void){
+	int mode = 0;
+
 	SDL_Rect *buttons = calloc(MENU_BUTTONS, sizeof *buttons);
 	for(int i=0; i<MENU_BUTTONS; i++){
 		buttons[i].h = 50;
 		buttons[i].w = 100;
 		buttons[i].x = SCREEN_WIDTH/2 - buttons[i].w/2;
-		buttons[i].y = SCREEN_HEIGHT/4 * (i+1) - buttons[i].h/2;
+		buttons[i].y = SCREEN_HEIGHT/3 * (i+1) - buttons[i].h/2;
 	}
 
 	SDL_Color menuColor = {7, 143, 173, 255};
 
+	menuActive = 1;
 	while(menuActive){
 		prepareScene(menuColor);
 		
-		menuInput(buttons);
+		mode = menuInput(buttons);
 
 		for(int i=0; i<MENU_BUTTONS; i++){
 			drawRect(buttons[i], White);
@@ -28,6 +31,7 @@ void menu(void){
 		presentScene();
 		
 		SDL_Delay(50);
-
 	}
+
+	return mode;
 }

@@ -1,33 +1,43 @@
 #include "main.h"
 
 App app;
+int running;
 
 int main(int argc, char *argv[]){
 	srand(time(0));
 	memset(&app, 0, sizeof(App));
 	
 	initSDL();
-	
+
 	atexit(cleanup);
 
-	menu();
-
-	Cell **grid = initGrid();
-
-	randomStartingState(grid);
-
 	while(1){
-		prepareScene(Black);
-		
-		mainInput();
+		Cell **grid = initGrid();
 
-		grid = nextState(grid);
+		if(!menu()){
+			randomStartingState(grid);
+		}
+		else{
+			drawGrid(grid);
+		}
 
-		drawGrid(grid);
-		
-		presentScene();
-		
-		SDL_Delay(50);
+		// Cell **initState = initGrid();
+		// memcpy(initState, grid, sizeof grid);
+
+		running = 1;
+		while(running){
+			prepareScene(Black);
+			
+			mainInput();
+
+			grid = nextState(grid);
+
+			displayGrid(grid);
+			
+			presentScene();
+			
+			SDL_Delay(50);
+		}
 	}
 
 	return 0;

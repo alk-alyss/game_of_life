@@ -21,7 +21,7 @@ vpath %.c $(SEARCHPATH)
 vpath %.h $(SEARCHPATH)
 
 # Header file dependencies
-DEPS = defs.h structs.h
+DEPS = defs.h structs.h common.h
 
 # Required objects
 FILES = draw.c init.c input.c grid.c main.c menu.c

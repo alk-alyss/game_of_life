@@ -1,9 +1,18 @@
 #include "grid.h"
 
+int drawing = 1;
+
 Cell **initGrid(void){
 	Cell **grid = calloc(ROWS, sizeof *grid);
 	for(int i=0; i<ROWS; i++){
 		grid[i] = calloc(COLS, sizeof **grid);
+		for(int j=0; j<COLS; j++){
+			grid[i][j].rect.y = i*CELL_SIZE+1;
+			grid[i][j].rect.x = j*CELL_SIZE+1;
+			grid[i][j].rect.w = CELL_SIZE-1;
+			grid[i][j].rect.h = CELL_SIZE-1;
+			grid[i][j].alive = 0;
+		}
 	}
 	return grid;
 }
@@ -11,10 +20,6 @@ Cell **initGrid(void){
 void randomStartingState(Cell **grid){
 	for(int i=0; i<ROWS; i++){
 		for(int j=0; j<COLS; j++){
-			grid[i][j].rect.y = i*CELL_SIZE+1;
-			grid[i][j].rect.x = j*CELL_SIZE+1;
-			grid[i][j].rect.w = CELL_SIZE-1;
-			grid[i][j].rect.h = CELL_SIZE-1;
 			grid[i][j].alive = 1 ? rand()/(double)RAND_MAX > 0.5 : 0;
 		}
 	}
@@ -54,7 +59,7 @@ Cell **nextState(Cell **grid){
 	return next;
 }
 
-void drawGrid(Cell **grid){
+void displayGrid(Cell **grid){
 	for(int i=0; i<ROWS; i++){
 		for(int j=0; j<COLS; j++){
 			SDL_Color color;
@@ -63,4 +68,26 @@ void drawGrid(Cell **grid){
 			drawRect(grid[i][j].rect, color);
 		}
 	}
+}
+
+void drawGrid(Cell **grid){
+	while(drawing){
+		prepareScene(Black);
+		
+		gridInput(grid);
+
+		displayGrid(grid);
+
+		presentScene();
+		
+		SDL_Delay(50);
+	}
+
+}
+
+SDL_Point screenToGrid(Sint32 x, Sint32 y){
+	SDL_Point index;
+	index.x = (int) x/CELL_SIZE;
+	index.y = (int) y/CELL_SIZE;
+	return index;
 }

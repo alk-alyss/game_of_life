@@ -2,8 +2,10 @@
 #define INPUT_H
 
 #include "common.h"
+#include "grid.h"
 
 void mainInput(void);
-void menuInput(SDL_Rect *buttons);
+int menuInput(SDL_Rect *buttons);
+void gridInput(Cell **grid);
 
 #endif
