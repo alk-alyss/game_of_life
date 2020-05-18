@@ -11,8 +11,17 @@ int main(int argc, char *argv[]){
 
 	atexit(cleanup);
 
-	while(1){
+	Cell **initState = initGrid();
+	for(int run=0; ;run ++){
 		Cell **grid = initGrid();
+
+		if(run){
+			for(int i=0; i<ROWS; i++){
+				for(int j=0; j<COLS; j++){
+					grid[i][j] = initState[i][j];
+				}
+			}
+		}
 
 		if(!menu()){
 			randomStartingState(grid);
@@ -21,8 +30,11 @@ int main(int argc, char *argv[]){
 			drawGrid(grid);
 		}
 
-		// Cell **initState = initGrid();
-		// memcpy(initState, grid, sizeof grid);
+		for(int i=0; i<ROWS; i++){
+			for(int j=0; j<COLS; j++){
+				initState[i][j] = grid[i][j];
+			}
+		}
 
 		running = 1;
 		while(running){

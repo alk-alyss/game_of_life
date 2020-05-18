@@ -1,6 +1,6 @@
 #include "grid.h"
 
-int drawing = 1;
+int drawing;
 
 Cell **initGrid(void){
 	Cell **grid = calloc(ROWS, sizeof *grid);
@@ -71,6 +71,7 @@ void displayGrid(Cell **grid){
 }
 
 void drawGrid(Cell **grid){
+	drawing = 1;
 	while(drawing){
 		prepareScene(Black);
 		
