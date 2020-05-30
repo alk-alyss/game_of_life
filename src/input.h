@@ -5,7 +5,7 @@
 #include "grid.h"
 
 void mainInput(void);
-int menuInput(SDL_Rect *buttons);
+Uint8 menuInput(SDL_Rect *buttons);
 void gridInput(Cell **grid);
 
 #endif

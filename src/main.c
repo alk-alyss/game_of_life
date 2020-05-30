@@ -1,37 +1,43 @@
 #include "main.h"
 
 App app;
-Uint8 running;
+Uint8 running, cellSize = 5;
+Uint32 rows, cols;
 
 int main(int argc, char *argv[]){
 	srand(time(0));
 	memset(&app, 0, sizeof(App));
 	
 	initSDL();
+	
+	rows = SCREEN_HEIGHT/cellSize;
+	cols = SCREEN_WIDTH/cellSize;
 
 	atexit(cleanup);
 
 	Cell **initState = initGrid();
-	for(int run=0; ;run ++){
+	for(Uint32 run=0; ;run ++){
 		Cell **grid = initGrid();
 
 		if(run){
-			for(int i=0; i<ROWS; i++){
-				for(int j=0; j<COLS; j++){
+			for(Uint32 i=0; i<rows; i++){
+				for(Uint32 j=0; j<cols; j++){
 					grid[i][j] = initState[i][j];
 				}
 			}
 		}
 
-		if(!menu()){
-			randomStartingState(grid);
-		}
-		else{
-			drawGrid(grid);
+		switch(menu()){
+			case 0:
+				randomStartingState(grid);
+				break;
+			case 1:
+				drawGrid(grid);
+				break;
 		}
 
-		for(int i=0; i<ROWS; i++){
-			for(int j=0; j<COLS; j++){
+		for(Uint32 i=0; i<rows; i++){
+			for(Uint32 j=0; j<cols; j++){
 				initState[i][j] = grid[i][j];
 			}
 		}
@@ -48,7 +54,7 @@ int main(int argc, char *argv[]){
 			
 			presentScene();
 			
-			SDL_Delay(50);
+			SDL_Delay(25);
 		}
 	}
 

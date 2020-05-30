@@ -7,11 +7,11 @@
 
 Cell **initGrid(void);
 void randomStartingState(Cell **grid);
-int getNeighbourSum(Cell **grid, int i, int j);
+Uint8 getNeighbourSum(Cell **grid, Uint32 i, Uint32 j);
 Cell **nextState(Cell **grid);
 void displayGrid(Cell **grid);
 void drawGrid(Cell **grid);
-SDL_Point screenToGrid(Sint32 x, Sint32 y);
+SDL_Point screenToGrid(Uint32 x, Uint32 y);
 void addGosperGun(Cell **grid);
 
 #endif

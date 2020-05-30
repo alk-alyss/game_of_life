@@ -1,23 +1,26 @@
 #include "init.h"
 
 TTF_Font *menuFont;
+SDL_DisplayMode dm;
 
 void initSDL(void){
 	int rendererFlags, windowFlags;
 
 	rendererFlags = SDL_RENDERER_ACCELERATED;
 	
-	windowFlags = 0;
+	windowFlags = SDL_WINDOW_FULLSCREEN;
 
 	if(SDL_Init(SDL_INIT_VIDEO) < 0){
 		printf("Couldn't initialize SDL: %s\n", SDL_GetError());
 		exit(1);
 	}
 
-	app.window = SDL_CreateWindow("Game of Life", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, windowFlags);
+	SDL_GetDesktopDisplayMode(0, &dm);
+
+	app.window = SDL_CreateWindow("Game of Life", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, dm.w, dm.h, windowFlags);
 	
 	if(!app.window){
-		printf("Failed to open %d x %d window: %s\n", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_GetError());
+		printf("Failed to open window: %s\n", SDL_GetError());
 		exit(1);
 	}
 

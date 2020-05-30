@@ -24,7 +24,7 @@ void mainInput(void){
 	}
 }
 
-int menuInput(SDL_Rect *buttons){
+Uint8 menuInput(SDL_Rect *buttons){
 	SDL_Event event;
 	
 	while(SDL_PollEvent(&event)){
@@ -75,8 +75,8 @@ void gridInput(Cell **grid){
 						drawing = 0;
 						break;
 					case SDLK_c:
-						for(int i=0; i<ROWS; i++){
-							for(int j=0; j<COLS; j++){
+						for(Uint32 i=0; i<rows; i++){
+							for(Uint32 j=0; j<cols; j++){
 								grid[i][j].alive = 0;
 							}
 						}

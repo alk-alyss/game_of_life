@@ -2,11 +2,11 @@
 
 Uint8 menuActive;
 
-int menu(void){
-	int mode = 0;
+Uint8 menu(void){
+	Uint8 mode = 0;
 
 	SDL_Rect *buttons = calloc(MENU_BUTTONS, sizeof *buttons);
-	for(int i=0; i<MENU_BUTTONS; i++){
+	for(Uint8 i=0; i<MENU_BUTTONS; i++){
 		buttons[i].h = 50;
 		buttons[i].w = 100;
 		buttons[i].x = SCREEN_WIDTH/2 - buttons[i].w/2;
@@ -19,9 +19,7 @@ int menu(void){
 	while(menuActive){
 		prepareScene(menuColor);
 		
-		mode = menuInput(buttons);
-
-		for(int i=0; i<MENU_BUTTONS; i++){
+		for(Uint8 i=0; i<MENU_BUTTONS; i++){
 			drawRect(buttons[i], White);
 		}
 
@@ -29,6 +27,8 @@ int menu(void){
 		drawText("Draw", menuFont, Black, buttons[1]);
 		drawText("Help", menuFont, Black, buttons[2]);
 		drawText("Quit", menuFont, Black, buttons[3]);
+
+		mode = menuInput(buttons);
 
 		presentScene();
 		

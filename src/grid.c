@@ -3,14 +3,14 @@
 Uint8 drawing;
 
 Cell **initGrid(void){
-	Cell **grid = calloc(ROWS, sizeof *grid);
-	for(int i=0; i<ROWS; i++){
-		grid[i] = calloc(COLS, sizeof **grid);
-		for(int j=0; j<COLS; j++){
-			grid[i][j].rect.y = i*CELL_SIZE+1;
-			grid[i][j].rect.x = j*CELL_SIZE+1;
-			grid[i][j].rect.w = CELL_SIZE-1;
-			grid[i][j].rect.h = CELL_SIZE-1;
+	Cell **grid = calloc(rows, sizeof *grid);
+	for(Uint32 i=0; i<rows; i++){
+		grid[i] = calloc(cols, sizeof **grid);
+		for(Uint32 j=0; j<cols; j++){
+			grid[i][j].rect.y = i*cellSize+1;
+			grid[i][j].rect.x = j*cellSize+1;
+			grid[i][j].rect.w = cellSize-1;
+			grid[i][j].rect.h = cellSize-1;
 			grid[i][j].alive = 0;
 		}
 	}
@@ -18,21 +18,21 @@ Cell **initGrid(void){
 }
 
 void randomStartingState(Cell **grid){
-	for(int i=0; i<ROWS; i++){
-		for(int j=0; j<COLS; j++){
+	for(Uint32 i=0; i<rows; i++){
+		for(Uint32 j=0; j<cols; j++){
 			grid[i][j].alive = 1 ? rand()/(double)RAND_MAX > 0.5 : 0;
 		}
 	}
 }
 
-int getNeighbourSum(Cell **grid, int i, int j){
-	int sum = 0;
-	for(int yoff=-1; yoff<=1; yoff++){
-		for(int xoff=-1; xoff<=1; xoff++){
+Uint8 getNeighbourSum(Cell **grid, Uint32 i, Uint32 j){
+	Uint8 sum = 0;
+	for(Sint8 yoff=-1; yoff<=1; yoff++){
+		for(Sint8 xoff=-1; xoff<=1; xoff++){
 			if(xoff == 0 && yoff == 0) continue;
-			int yIndex = i + yoff;
-			int xIndex = j + xoff;
-			if(yIndex>=0 && yIndex<ROWS && xIndex>=0 && xIndex<COLS)
+			Sint64 yIndex = i + yoff;
+			Sint64 xIndex = j + xoff;
+			if(yIndex>=0 && yIndex<rows && xIndex>=0 && xIndex<cols)
 				sum += 1 ? grid[yIndex][xIndex].alive : 0;
 		}
 	}
@@ -42,10 +42,10 @@ int getNeighbourSum(Cell **grid, int i, int j){
 Cell **nextState(Cell **grid){
 	Cell **next = initGrid();
 
-	for(int i=0; i<ROWS; i++){
-		for(int j=0; j<COLS; j++){
+	for(Uint32 i=0; i<rows; i++){
+		for(Uint32 j=0; j<cols; j++){
 			next[i][j] = grid[i][j];
-			int sum = getNeighbourSum(grid, i, j);
+			Uint8 sum = getNeighbourSum(grid, i, j);
 			if(grid[i][j].alive){
 				if(sum < 2 || sum > 3) next[i][j].alive = 0;
 			}
@@ -60,8 +60,8 @@ Cell **nextState(Cell **grid){
 }
 
 void displayGrid(Cell **grid){
-	for(int i=0; i<ROWS; i++){
-		for(int j=0; j<COLS; j++){
+	for(Uint32 i=0; i<rows; i++){
+		for(Uint32 j=0; j<cols; j++){
 			SDL_Color color;
 			if(grid[i][j].alive) color = White;
 			else color = Black;
@@ -86,10 +86,10 @@ void drawGrid(Cell **grid){
 
 }
 
-SDL_Point screenToGrid(Sint32 x, Sint32 y){
+SDL_Point screenToGrid(Uint32 x, Uint32 y){
 	SDL_Point index;
-	index.x = (int) x/CELL_SIZE;
-	index.y = (int) y/CELL_SIZE;
+	index.x = (int) x/cellSize;
+	index.y = (int) y/cellSize;
 	return index;
 }
 
