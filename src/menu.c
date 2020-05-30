@@ -1,6 +1,6 @@
 #include "menu.h"
 
-int menuActive;
+Uint8 menuActive;
 
 int menu(void){
 	int mode = 0;
@@ -28,6 +28,7 @@ int menu(void){
 		drawText("Random", menuFont, Black, buttons[0]);
 		drawText("Draw", menuFont, Black, buttons[1]);
 		drawText("Help", menuFont, Black, buttons[2]);
+		drawText("Quit", menuFont, Black, buttons[3]);
 
 		presentScene();
 		

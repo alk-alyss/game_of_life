@@ -1,7 +1,7 @@
 #include "main.h"
 
 App app;
-int running;
+Uint8 running;
 
 int main(int argc, char *argv[]){
 	srand(time(0));

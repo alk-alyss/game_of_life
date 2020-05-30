@@ -1,6 +1,6 @@
 #include "grid.h"
 
-int drawing;
+Uint8 drawing;
 
 Cell **initGrid(void){
 	Cell **grid = calloc(ROWS, sizeof *grid);

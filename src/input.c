@@ -11,7 +11,7 @@ void mainInput(void){
 
 			case SDL_KEYDOWN:
 				switch(event.key.keysym.sym){
-					case SDLK_r:
+					case SDLK_ESCAPE:
 						running = 0;
 						break;
 					default:
@@ -42,6 +42,9 @@ int menuInput(SDL_Rect *buttons){
 				else if(SDL_PointInRect(&mouse, &buttons[1])){
 					menuActive = 0;
 					return 1;
+				}
+				else if(SDL_PointInRect(&mouse, &buttons[3])){
+					exit(0);
 				}
 				break;
 

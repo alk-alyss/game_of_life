@@ -18,9 +18,7 @@ extern App app;
 
 extern TTF_Font *menuFont;
 
-extern int running;
-extern int menuActive;
-extern int drawing;
+extern Uint8 running, menuActive, drawing;
 
 extern SDL_Color White;
 extern SDL_Color Black;
