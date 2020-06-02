@@ -89,8 +89,10 @@ void gridInput(Grid *grid){
 							}
 						}
 						break;
-					case SDLK_g:
-						addGosperGun(*grid);
+					case SDLK_g:;
+						SDL_Point mouse;
+						SDL_GetMouseState(&mouse.x, &mouse.y);
+						addGosperGun(*grid, mouse);
 						break;
 					case SDLK_ESCAPE:
 						drawing = 0;

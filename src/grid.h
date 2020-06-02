@@ -13,6 +13,6 @@ Grid nextState(Grid grid);
 void displayGrid(Grid grid);
 void drawGrid(Grid *grid);
 SDL_Point screenToGrid(Uint32 x, Uint32 y);
-void addGosperGun(Grid grid);
+void addGosperGun(Grid grid, SDL_Point mouse);
 
 #endif

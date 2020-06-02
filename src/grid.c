@@ -108,49 +108,50 @@ SDL_Point screenToGrid(Uint32 x, Uint32 y){
 	return index;
 }
 
-void addGosperGun(Grid grid){
-	grid[0][25].alive = 1;
+void addGosperGun(Grid grid, SDL_Point mouse){
+	mouse = screenToGrid(mouse.x, mouse.y);
+	grid[mouse.y+0][mouse.x+25].alive = 1;
 
-	grid[1][23].alive = 1;
-	grid[1][25].alive = 1;
+	grid[mouse.y+1][mouse.x+23].alive = 1;
+	grid[mouse.y+1][mouse.x+25].alive = 1;
 
-	grid[2][13].alive = 1;
-	grid[2][14].alive = 1;
-	grid[2][21].alive = 1;
-	grid[2][22].alive = 1;
-	grid[2][35].alive = 1;
-	grid[2][36].alive = 1;
+	grid[mouse.y+2][mouse.x+13].alive = 1;
+	grid[mouse.y+2][mouse.x+14].alive = 1;
+	grid[mouse.y+2][mouse.x+21].alive = 1;
+	grid[mouse.y+2][mouse.x+22].alive = 1;
+	grid[mouse.y+2][mouse.x+35].alive = 1;
+	grid[mouse.y+2][mouse.x+36].alive = 1;
 
-	grid[3][12].alive = 1;
-	grid[3][16].alive = 1;
-	grid[3][21].alive = 1;
-	grid[3][22].alive = 1;
-	grid[3][35].alive = 1;
-	grid[3][36].alive = 1;
+	grid[mouse.y+3][mouse.x+12].alive = 1;
+	grid[mouse.y+3][mouse.x+16].alive = 1;
+	grid[mouse.y+3][mouse.x+21].alive = 1;
+	grid[mouse.y+3][mouse.x+22].alive = 1;
+	grid[mouse.y+3][mouse.x+35].alive = 1;
+	grid[mouse.y+3][mouse.x+36].alive = 1;
 
-	grid[4][1].alive = 1;
-	grid[4][2].alive = 1;
-	grid[4][11].alive = 1;
-	grid[4][17].alive = 1;
-	grid[4][21].alive = 1;
-	grid[4][22].alive = 1;
+	grid[mouse.y+4][mouse.x+1].alive = 1;
+	grid[mouse.y+4][mouse.x+2].alive = 1;
+	grid[mouse.y+4][mouse.x+11].alive = 1;
+	grid[mouse.y+4][mouse.x+17].alive = 1;
+	grid[mouse.y+4][mouse.x+21].alive = 1;
+	grid[mouse.y+4][mouse.x+22].alive = 1;
 
-	grid[5][1].alive = 1;
-	grid[5][2].alive = 1;
-	grid[5][11].alive = 1;
-	grid[5][15].alive = 1;
-	grid[5][17].alive = 1;
-	grid[5][18].alive = 1;
-	grid[5][23].alive = 1;
-	grid[5][25].alive = 1;
+	grid[mouse.y+5][mouse.x+1].alive = 1;
+	grid[mouse.y+5][mouse.x+2].alive = 1;
+	grid[mouse.y+5][mouse.x+11].alive = 1;
+	grid[mouse.y+5][mouse.x+15].alive = 1;
+	grid[mouse.y+5][mouse.x+17].alive = 1;
+	grid[mouse.y+5][mouse.x+18].alive = 1;
+	grid[mouse.y+5][mouse.x+23].alive = 1;
+	grid[mouse.y+5][mouse.x+25].alive = 1;
 
-	grid[6][11].alive = 1;
-	grid[6][17].alive = 1;
-	grid[6][25].alive = 1;
+	grid[mouse.y+6][mouse.x+11].alive = 1;
+	grid[mouse.y+6][mouse.x+17].alive = 1;
+	grid[mouse.y+6][mouse.x+25].alive = 1;
 
-	grid[7][12].alive = 1;
-	grid[7][16].alive = 1;
+	grid[mouse.y+7][mouse.x+12].alive = 1;
+	grid[mouse.y+7][mouse.x+16].alive = 1;
 
-	grid[8][13].alive = 1;
-	grid[8][14].alive = 1;
+	grid[mouse.y+8][mouse.x+13].alive = 1;
+	grid[mouse.y+8][mouse.x+14].alive = 1;
 }
