@@ -2,7 +2,7 @@
 
 Uint32 newRows, newCols;
 
-void mainInput(void){
+void mainInput(Grid *grid){
 	SDL_Event event;
 	
 	while(SDL_PollEvent(&event)){
@@ -15,6 +15,12 @@ void mainInput(void){
 				switch(event.key.keysym.sym){
 					case SDLK_ESCAPE:
 						running = 0;
+						break;
+					case SDLK_RETURN:
+						paused = !paused;
+						break;
+					case SDLK_SPACE:
+						if(paused) *grid = nextState(*grid);
 						break;
 					default:
 						break;
@@ -85,6 +91,16 @@ void gridInput(Grid *grid){
 						break;
 					case SDLK_g:
 						addGosperGun(*grid);
+						break;
+					case SDLK_ESCAPE:
+						drawing = 0;
+						running = 0;
+						break;
+					case SDLK_SPACE:
+						drawing = 0;
+						paused = 1;
+						*grid = nextState(*grid);
+						break;
 					default:
 						break;
 				}
