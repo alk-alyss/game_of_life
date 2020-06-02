@@ -8,7 +8,14 @@ typedef struct{
 
 typedef struct{
 	SDL_Rect rect;
-	int alive;
+	bool alive;
 } Cell;
+typedef Cell **Grid;
+
+typedef struct{
+	Grid grid;
+	Uint32 rows;
+	Uint32 cols;
+} metaGrid;
 
 #endif

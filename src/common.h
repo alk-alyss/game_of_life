@@ -7,6 +7,7 @@
 #include "math.h"
 #include "ctype.h"
 #include "time.h"
+#include "stdbool.h"
 
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_ttf.h"
@@ -18,12 +19,16 @@ extern App app;
 
 extern SDL_DisplayMode dm;
 
-extern Uint8 cellSize, running, menuActive, drawing;
+extern bool running, menuActive, drawing;
 
-extern Uint32 rows, cols;
+extern Uint32 rows, cols, newRows, newCols;
+
+extern double cellSize;
 
 extern TTF_Font *menuFont;
 
 extern SDL_Color White, Black;
+
+extern Grid initState;
 
 #endif

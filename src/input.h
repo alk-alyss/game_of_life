@@ -6,6 +6,6 @@
 
 void mainInput(void);
 Uint8 menuInput(SDL_Rect *buttons);
-void gridInput(Cell **grid);
+void gridInput(Grid *grid);
 
 #endif

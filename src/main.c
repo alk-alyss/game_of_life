@@ -1,23 +1,25 @@
 #include "main.h"
 
 App app;
-Uint8 running, cellSize = 5;
+bool running;
 Uint32 rows, cols;
+double cellSize = 10;
+Grid initState;
 
 int main(int argc, char *argv[]){
 	srand(time(0));
 	memset(&app, 0, sizeof(App));
 	
 	initSDL();
-	
+	atexit(cleanup);
+
 	rows = SCREEN_HEIGHT/cellSize;
 	cols = SCREEN_WIDTH/cellSize;
 
-	atexit(cleanup);
+	initState = initGrid(rows, cols);
 
-	Cell **initState = initGrid();
-	for(Uint32 run=0; ;run ++){
-		Cell **grid = initGrid();
+	for(bool run=false; ;run=true){
+		Grid grid = initGrid(rows, cols);
 
 		if(run){
 			for(Uint32 i=0; i<rows; i++){
@@ -32,7 +34,7 @@ int main(int argc, char *argv[]){
 				randomStartingState(grid);
 				break;
 			case 1:
-				drawGrid(grid);
+				drawGrid(&grid);
 				break;
 		}
 

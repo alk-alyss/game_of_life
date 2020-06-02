@@ -5,13 +5,14 @@
 #include "draw.h"
 #include "input.h"
 
-Cell **initGrid(void);
-void randomStartingState(Cell **grid);
-Uint8 getNeighbourSum(Cell **grid, Uint32 i, Uint32 j);
-Cell **nextState(Cell **grid);
-void displayGrid(Cell **grid);
-void drawGrid(Cell **grid);
+Grid initGrid(Uint32 _rows, Uint32 _cols);
+Grid resizeGrid(Grid grid, Uint32 _rows, Uint32 _cols);
+void randomStartingState(Grid grid);
+Uint8 getNeighbourSum(Grid grid, Uint32 i, Uint32 j);
+Grid nextState(Grid grid);
+void displayGrid(Grid grid);
+void drawGrid(Grid *grid);
 SDL_Point screenToGrid(Uint32 x, Uint32 y);
-void addGosperGun(Cell **grid);
+void addGosperGun(Grid grid);
 
 #endif

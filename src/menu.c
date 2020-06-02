@@ -1,6 +1,6 @@
 #include "menu.h"
 
-Uint8 menuActive;
+bool menuActive;
 
 Uint8 menu(void){
 	Uint8 mode = 0;

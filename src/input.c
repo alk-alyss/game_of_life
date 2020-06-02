@@ -1,5 +1,7 @@
 #include "input.h"
 
+Uint32 newRows, newCols;
+
 void mainInput(void){
 	SDL_Event event;
 	
@@ -55,7 +57,7 @@ Uint8 menuInput(SDL_Rect *buttons){
 	return 0;
 }
 
-void gridInput(Cell **grid){
+void gridInput(Grid *grid){
 	SDL_Event event;
 	
 	while(SDL_PollEvent(&event)){
@@ -66,7 +68,7 @@ void gridInput(Cell **grid){
 
 			case SDL_MOUSEBUTTONDOWN: ;
 				SDL_Point mouse = screenToGrid(event.button.x, event.button.y);
-				grid[mouse.y][mouse.x].alive = !grid[mouse.y][mouse.x].alive;
+				(*grid)[mouse.y][mouse.x].alive = !(*grid)[mouse.y][mouse.x].alive;
 				break;
 
 			case SDL_KEYDOWN:
@@ -77,15 +79,36 @@ void gridInput(Cell **grid){
 					case SDLK_c:
 						for(Uint32 i=0; i<rows; i++){
 							for(Uint32 j=0; j<cols; j++){
-								grid[i][j].alive = 0;
+								(*grid)[i][j].alive = 0;
 							}
 						}
 						break;
 					case SDLK_g:
-						addGosperGun(grid);
+						addGosperGun(*grid);
 					default:
 						break;
 				}
+				break;
+
+			case SDL_MOUSEWHEEL:
+				newRows = rows;
+				newCols = cols;
+				cellSize += event.wheel.y * 0.1;
+
+				if(cellSize){
+					newRows = (Uint32) (SCREEN_HEIGHT/cellSize);
+					newCols = (Uint32) (SCREEN_WIDTH/cellSize);
+				}
+
+				if(newRows < rows) newRows = rows;
+				if(newCols < cols) newCols = cols;
+
+				*grid = resizeGrid(*grid, newRows, newCols);
+				initState = resizeGrid(initState, newRows, newCols);
+
+				rows = newRows;
+				cols = newCols;
+				break;
 
 			default:
 				break;
