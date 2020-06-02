@@ -12,10 +12,4 @@ typedef struct{
 } Cell;
 typedef Cell **Grid;
 
-typedef struct{
-	Grid grid;
-	Uint32 rows;
-	Uint32 cols;
-} metaGrid;
-
 #endif
