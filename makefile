@@ -27,7 +27,7 @@ CC := gcc
 SFLAGS := -std=c99
 GFLAGS := -g
 OFLAGS := -O0
-WFLAGS := -Wall -Wextra -Wstrict-prototypes -Wmissing-prototypes
+WFLAGS := -Wall -Wstrict-prototypes -Wmissing-prototypes
 
 CINCLUDES := $(patsubst %,-I%, $(INCLUDEDIRS:%/=%))
 
