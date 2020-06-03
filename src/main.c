@@ -1,7 +1,7 @@
 #include "main.h"
 
 App app;
-bool running, paused;
+bool running, paused, advance = false;
 Uint32 rows, cols;
 double cellSize = 10;
 Grid initState;
@@ -51,7 +51,10 @@ int main(int argc, char *argv[]){
 			
 			mainInput(&grid);
 
-			if(!paused) grid = nextState(grid);
+			if(!paused || advance){
+				grid = nextState(grid);
+				advance = false;
+			}
 
 			displayGrid(grid);
 			

@@ -14,7 +14,7 @@ void mainInput(Grid *grid){
 			case SDL_KEYDOWN:
 				switch(event.key.keysym.sym){
 					case SDLK_ESCAPE:
-						running = 0;
+						running = false;
 						break;
 					case SDLK_RETURN:
 						paused = !paused;
@@ -44,11 +44,11 @@ Uint8 menuInput(SDL_Rect *buttons){
 			case SDL_MOUSEBUTTONDOWN: ;
 				SDL_Point mouse = {event.button.x, event.button.y};
 				if(SDL_PointInRect(&mouse, &buttons[0])){
-					menuActive = 0;
+					menuActive = false;
 					return 0;
 				}
 				else if(SDL_PointInRect(&mouse, &buttons[1])){
-					menuActive = 0;
+					menuActive = false;
 					return 1;
 				}
 				else if(SDL_PointInRect(&mouse, &buttons[3])){
@@ -80,12 +80,12 @@ void gridInput(Grid *grid){
 			case SDL_KEYDOWN:
 				switch(event.key.keysym.sym){
 					case SDLK_RETURN:
-						drawing = 0;
+						drawing = false;
 						break;
 					case SDLK_c:
 						for(Uint32 i=0; i<rows; i++){
 							for(Uint32 j=0; j<cols; j++){
-								(*grid)[i][j].alive = 0;
+								(*grid)[i][j].alive = true;
 							}
 						}
 						break;
@@ -95,13 +95,13 @@ void gridInput(Grid *grid){
 						addGosperGun(*grid, mouse);
 						break;
 					case SDLK_ESCAPE:
-						drawing = 0;
-						running = 0;
+						drawing = false;
+						running = false;
 						break;
 					case SDLK_SPACE:
-						drawing = 0;
-						paused = 1;
-						*grid = nextState(*grid);
+						drawing = false;
+						paused = true;
+						advance = true;
 						break;
 					default:
 						break;
