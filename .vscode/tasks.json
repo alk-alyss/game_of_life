@@ -7,12 +7,15 @@
 			"type": "shell",
 			"args": [],
 			"problemMatcher": [
-				"$tsc"
+				"$gcc"
 			],
 			"presentation": {
 				"reveal": "always"
 			},
-			"group": "build"
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
 		}
 	]
 }

@@ -1,31 +1,32 @@
-CC = gcc
+# Program name/ binary path/ source path
+PROG = game_of_life
+OUT = bin
+SRC = src
+INCLUDE = include
 
 # Compiler options
+CC = gcc
+
 SFLAGS  = -std=c99
 GFLAGS  = -g
 OFLAGS  = -O0
 WFLAGS  = -Wall -Wextra -Wstrict-prototypes -Wmissing-prototypes
 
 CFLAGS  += ${SFLAGS} ${GFLAGS} ${OFLAGS} ${WFLAGS}
-CXXFLAGS += `sdl2-config --cflags` -lefence
+CXXFLAGS += `sdl2-config --cflags` -lefence -I${INCLUDE}
 
 # Linker options
 LDFLAGS += `sdl2-config --libs` -lSDL2_mixer -lSDL2_image -lSDL2_ttf -lm
 
-# Program name/ binary path/ source path
-PROG = game_of_life
-OUT = bin
-SEARCHPATH = src
-
-vpath %.c $(SEARCHPATH)
-vpath %.h $(SEARCHPATH)
+vpath %.c $(SRC)
+vpath %.h $(INCLUDE)
 
 # Header file dependencies
 DEPS = defs.h structs.h common.h
 
 # Required objects
-FILES = draw.c init.c input.c grid.c main.c menu.c
-OBJS = $(patsubst %,$(OUT)/%,$(FILES:.c=.o))
+FILES = $(wildcard $(SRC)/*.c)
+OBJS = $(patsubst $(SRC)/%.c,$(OUT)/%.o,$(FILES))
 
 # Top-level rule to create the program.
 all: $(PROG)
