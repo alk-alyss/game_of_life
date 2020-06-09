@@ -2,8 +2,8 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "Make program",
-			"command": "make",
+			"label": "Debug",
+			"command": "make debug",
 			"type": "shell",
 			"args": [],
 			"problemMatcher": [
@@ -16,6 +16,19 @@
 				"kind": "build",
 				"isDefault": true
 			}
+		},
+		{
+			"label": "Release",
+			"command": "make release",
+			"type": "shell",
+			"args": [],
+			"problemMatcher": [
+				"$gcc"
+			],
+			"presentation": {
+				"reveal": "always"
+			},
+			"group": "build"
 		}
 	]
 }

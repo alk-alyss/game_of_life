@@ -6,58 +6,75 @@ INCLUDE	:= include
 DEPS := defs.h common.h structs.h
 
 ifeq ($(OS),Windows_NT)
-EXECUTABLE := $(PROG).exe
-SOURCEDIRS := $(SRC)
+EXE := $(PROG).exe
+SRCDIRS := $(SRC)
 INCLUDEDIRS := $(INCLUDE)
 else
-EXECUTABLE := $(PROG)
-SOURCEDIRS := $(shell find $(SRC) -type d)
+EXE := $(PROG)
+SRCDIRS := $(shell find $(SRC) -type d)
 INCLUDEDIRS := $(shell find $(INCLUDE) -type d)
 endif
 
-vpath %.c $(SOURCEDIRS)
+vpath %.c $(SRCDIRS)
 vpath %.h $(INCLUDEDIRS)
 vpath %.o $(BIN)
 
-# RM definition
-RM := rm -rf
-
 # Compiler options
 CC := gcc
-SFLAGS := -std=c99
-GFLAGS := -g
-OFLAGS := -O0
 WFLAGS := -Wall -Wstrict-prototypes -Wmissing-prototypes
 
 CINCLUDES := $(patsubst %,-I%, $(INCLUDEDIRS:%/=%))
 
-CFLAGS  += ${SFLAGS} ${GFLAGS} ${OFLAGS} ${WFLAGS} 
+CFLAGS  += -std=c99 ${WFLAGS} 
 CXXFLAGS += `sdl2-config --cflags` $(CINCLUDES)
 
 # Linker options
-LDFLAGS += `sdl2-config --libs` -lSDL2_mixer -lSDL2_image -lSDL2_ttf -lm
+LDFLAGS += `sdl2-config --libs` -lSDL2_ttf -lm
 
 # Source and Object definitions
-SOURCES	:= $(wildcard $(patsubst %,%/*.c, $(SOURCEDIRS)))
-OBJECTS	:= $(patsubst $(SRC)/%.c, $(BIN)/%.o, $(SOURCES))
+SRCS := $(wildcard $(patsubst %,%/*.c, $(SRCDIRS)))
+OBJS := $(patsubst $(SRC)/%.c, %.o, $(SRCS))
 
-# Top-level rule to create the program
-all: $(EXECUTABLE)
+# Debug build settings
+DBGDIR := $(BIN)/debug
+DBGEXE := $(DBGDIR)/$(EXE)
+DBGOBJS := $(addprefix $(DBGDIR)/, $(OBJS))
+DBGCFLAGS := -g3 -Og
 
-# Linking the program
-$(EXECUTABLE): $(OBJECTS)
+# Release build settings
+RELDIR := $(BIN)/release
+RELEXE := $(RELDIR)/$(EXE)
+RELOBJS := $(addprefix $(RELDIR)/, $(OBJS))
+RELCFLAGS := -O3
+
+.PHONY: all clean debug release remake
+
+# Default build
+all: debug
+
+# Debug rules
+debug: $(DBGEXE)
+
+$(DBGEXE): $(DBGOBJS)
 	$(CC) -o $@ $^ $(LDFLAGS)
 
-# Compiling source files
-$(BIN)/%.o: %.c %.h $(DEPS)
-	@mkdir -p $(BIN)
-	$(CC) $(CFLAGS) $(CXXFLAGS) -c -o $@ $<
+$(DBGDIR)/%.o: %.c
+	@mkdir -p $(DBGDIR)
+	$(CC) -c $(CFLAGS) $(CXXFLAGS) $(DBGCFLAGS) -o $@ $<
 
-# Run the program
-run: all
-	@./$(EXECUTABLE)
+# Release rules
+release: $(RELEXE)
 
-# Cleaning everything that can be automatically recreated with "make"
-.PHONY: clean
+$(RELEXE): $(RELOBJS)
+	$(CC) -o $@ $^ $(LDFLAGS)
+
+$(RELDIR)/%.o: %.c
+	@mkdir -p $(RELDIR)
+	$(CC) -c $(CFLAGS) $(CXXFLAGS) $(RELCFLAGS) -o $@ $<
+
+# Clean and build
+remake: clean all
+
+# Clean build files
 clean:
-	-$(RM) $(OBJECTS) $(EXECUTABLE)
+	$(RM) -r $(BIN)

@@ -8,7 +8,7 @@
 			"name": "Build and debug program",
 			"type": "cppdbg",
 			"request": "launch",
-			"program": "${workspaceFolder}/game_of_life",
+			"program": "${workspaceFolder}/bin/debug/game_of_life",
 			"args": [],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
@@ -22,7 +22,7 @@
 					"ignoreFailures": true
 				}
 			],
-			"preLaunchTask": "Make program",
+			"preLaunchTask": "Debug",
 			"miDebuggerPath": "/usr/bin/gdb"
 		}
 	]
