@@ -6,7 +6,7 @@ Uint32 rows, cols;
 double cellSize = 10;
 Grid initState;
 
-int main(int argc, char *argv[]){
+int main(int argc, char* argv[]){
 	srand(time(0));
 	memset(&app, 0, sizeof(App));
 	

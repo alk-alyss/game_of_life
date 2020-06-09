@@ -13,9 +13,9 @@ void drawRect(SDL_Rect rect, SDL_Color c){
 	SDL_RenderFillRect(app.renderer, &rect);
 }
 
-void drawText(const char *text, TTF_Font *font, SDL_Color color, SDL_Rect rect){
-	SDL_Surface *surface = TTF_RenderText_Solid(font, text, color);
-	SDL_Texture *texture = SDL_CreateTextureFromSurface(app.renderer, surface);
+void drawText(const char* text, TTF_Font* font, SDL_Color color, SDL_Rect rect){
+	SDL_Surface* surface = TTF_RenderText_Solid(font, text, color);
+	SDL_Texture* texture = SDL_CreateTextureFromSurface(app.renderer, surface);
 	SDL_Rect distrect = {rect.x + rect.w/2, rect.y + rect.h/2, 4*rect.w/5, 4*rect.h/5};
 	// SDL_QueryTexture(texture, NULL, NULL, &(distrect.w), &(distrect.h));
 	distrect.x -= distrect.w/2;

@@ -4,7 +4,7 @@ Uint32 newRows, newCols;
 
 void mouseWheelEvent(Grid* grid, SDL_Event event);
 
-void mainInput(Grid *grid){
+void mainInput(Grid* grid){
 	SDL_Event event;
 	
 	while(SDL_PollEvent(&event)){
@@ -38,7 +38,7 @@ void mainInput(Grid *grid){
 	}
 }
 
-Uint8 menuInput(SDL_Rect *buttons){
+Uint8 menuInput(SDL_Rect* buttons){
 	SDL_Event event;
 	
 	while(SDL_PollEvent(&event)){
@@ -69,7 +69,7 @@ Uint8 menuInput(SDL_Rect *buttons){
 	return 0;
 }
 
-void gridInput(Grid *grid){
+void gridInput(Grid* grid){
 	SDL_Event event;
 	
 	while(SDL_PollEvent(&event)){

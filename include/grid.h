@@ -14,7 +14,7 @@ void randomStartingState(Grid grid);
 Uint8 getNeighbourSum(Grid grid, Uint32 i, Uint32 j);
 Grid nextState(Grid grid);
 void displayGrid(Grid grid);
-void drawGrid(Grid *grid);
+void drawGrid(Grid* grid);
 SDL_Point screenToGrid(Uint32 x, Uint32 y);
 void addGosperGun(Grid grid, SDL_Point mouse);
 

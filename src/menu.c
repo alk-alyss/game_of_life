@@ -5,7 +5,7 @@ bool menuActive;
 Uint8 menu(void){
 	Uint8 mode = 0;
 
-	SDL_Rect *buttons = calloc(MENU_BUTTONS, sizeof *buttons);
+	SDL_Rect* buttons = calloc(MENU_BUTTONS, sizeof *buttons);
 	for(Uint8 i=0; i<MENU_BUTTONS; i++){
 		buttons[i].h = 50;
 		buttons[i].w = 100;

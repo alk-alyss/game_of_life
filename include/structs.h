@@ -2,11 +2,11 @@
 #define STRUCTS_H
 
 typedef struct{
-	SDL_Renderer *renderer;
-	SDL_Window *window;
+	SDL_Renderer* renderer;
+	SDL_Window* window;
 } App;
 
 typedef bool Cell;
-typedef Cell **Grid;
+typedef Cell** Grid;
 
 #endif

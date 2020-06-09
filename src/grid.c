@@ -114,7 +114,7 @@ void displayGrid(Grid grid){
 	}
 }
 
-void drawGrid(Grid *grid){
+void drawGrid(Grid* grid){
 	drawing = 1;
 	while(drawing){
 		prepareScene(Black);

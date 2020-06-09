@@ -1,6 +1,6 @@
 #include "init.h"
 
-TTF_Font *menuFont;
+TTF_Font* menuFont;
 SDL_DisplayMode dm;
 
 void initSDL(void){

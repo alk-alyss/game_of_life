@@ -25,7 +25,7 @@ extern Uint32 rows, cols, newRows, newCols;
 
 extern double cellSize;
 
-extern TTF_Font *menuFont;
+extern TTF_Font* menuFont;
 
 extern SDL_Color White, Black;
 
