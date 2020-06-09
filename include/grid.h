@@ -7,6 +7,9 @@
 
 Grid initGrid(Uint32 _rows, Uint32 _cols);
 Grid resizeGrid(Grid grid, Uint32 _rows, Uint32 _cols);
+void moveGrid(Grid grid, SDL_Point mouse);
+void flipState(Grid grid, SDL_Point mouse);
+void clearGrid(Grid grid);
 void randomStartingState(Grid grid);
 Uint8 getNeighbourSum(Grid grid, Uint32 i, Uint32 j);
 Grid nextState(Grid grid);

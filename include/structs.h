@@ -6,10 +6,7 @@ typedef struct{
 	SDL_Window *window;
 } App;
 
-typedef struct{
-	SDL_Rect rect;
-	bool alive;
-} Cell;
+typedef bool Cell;
 typedef Cell **Grid;
 
 #endif
