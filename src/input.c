@@ -128,12 +128,12 @@ void gridInput(Grid* grid){
 }
 
 void mouseWheelEvent(Grid* grid, SDL_Event event){
-	SDL_Point mouse;
 	if(event.wheel.y < 0 && cellSize - 2 < 0.001) return;
+	SDL_Point mouse;
 	SDL_GetMouseState(&mouse.x, &mouse.y);
 	Uint64 newRows = rows;
 	Uint64 newCols = cols;
-	double newCellSize = cellSize + event.wheel.y * 0.1;
+	double newCellSize = cellSize + event.wheel.y * 0.05;
 
 	if(newCellSize){
 		newRows = (Uint64) (SCREEN_HEIGHT/newCellSize);
@@ -144,15 +144,23 @@ void mouseWheelEvent(Grid* grid, SDL_Event event){
 	if(newCols < cols) newCols = cols;
 
 	*grid = resizeGrid(*grid, newRows, newCols);
+	initState = resizeGrid(initState, newRows, newCols);
+
+	rows = newRows;
+	cols = newCols;
 
 	double visRows = SCREEN_HEIGHT/cellSize;
 	double visCols = SCREEN_WIDTH/cellSize;
-	double ratioY = (double)(mouse.y)/SCREEN_HEIGHT;
-	double ratioX = (double)(mouse.x)/SCREEN_WIDTH;
+	// Sint64 ratioY = (Sint64)(mouse.y)/SCREEN_HEIGHT;
+	// Sint64 ratioX = (Sint64)(mouse.x)/SCREEN_WIDTH;
+	double ratioX = 0.5;
+	double ratioY = 0.5;
 	double diffY = visRows*newCellSize - SCREEN_HEIGHT;
 	double diffX = visCols*newCellSize - SCREEN_WIDTH;
-	Sint64 offY = diffY * ratioY;
-	Sint64 offX = diffX * ratioX;
+	double offY = diffY * ratioY / newCellSize;
+	double offX = diffX * ratioX / newCellSize;
+
+	cellSize = newCellSize;
 
 	// if(event.wheel.y > 0){
 	// 	offX *= -1;
@@ -160,10 +168,4 @@ void mouseWheelEvent(Grid* grid, SDL_Event event){
 	// }
 
 	moveGrid(offX, offY);
-
-	initState = resizeGrid(initState, newRows, newCols);
-
-	rows = newRows;
-	cols = newCols;
-	cellSize = newCellSize;
 }
