@@ -2,7 +2,7 @@
 
 App app;
 bool running, paused, advance = false;
-Uint32 rows, cols;
+Uint64 rows, cols;
 double cellSize = DEFAULT_CELLSIZE;
 Grid initState;
 
@@ -24,8 +24,8 @@ int main(int argc, char* argv[]){
 		Grid grid = initGrid(rows, cols);
 
 		if(run){
-			for(Uint32 i=0; i<rows; i++){
-				for(Uint32 j=0; j<cols; j++){
+			for(Uint64 i=0; i<rows; i++){
+				for(Uint64 j=0; j<cols; j++){
 					grid[i][j] = initState[i][j];
 				}
 			}
@@ -40,8 +40,8 @@ int main(int argc, char* argv[]){
 				break;
 		}
 
-		for(Uint32 i=0; i<rows; i++){
-			for(Uint32 j=0; j<cols; j++){
+		for(Uint64 i=0; i<rows; i++){
+			for(Uint64 j=0; j<cols; j++){
 				initState[i][j] = grid[i][j];
 			}
 		}
