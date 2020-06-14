@@ -17,7 +17,6 @@ endif
 
 vpath %.c $(SRCDIRS)
 vpath %.h $(INCLUDEDIRS)
-vpath %.o $(BIN)
 
 # Compiler options
 CC := gcc
@@ -38,13 +37,15 @@ OBJS := $(patsubst $(SRC)/%.c, %.o, $(SRCS))
 # Debug build settings
 DBGDIR := $(BIN)/debug
 DBGEXE := $(DBGDIR)/$(EXE)
-DBGOBJS := $(addprefix $(DBGDIR)/, $(OBJS))
-DBGCFLAGS := -g3 -Og
+DBGOBJDIR := $(DBGDIR)/obj
+DBGOBJS := $(addprefix $(DBGOBJDIR)/, $(OBJS))
+DBGCFLAGS := -g3 -O0
 
 # Release build settings
 RELDIR := $(BIN)/release
 RELEXE := $(RELDIR)/$(EXE)
-RELOBJS := $(addprefix $(RELDIR)/, $(OBJS))
+RELOBJDIR := $(RELDIR)/obj
+RELOBJS := $(addprefix $(RELOBJDIR)/, $(OBJS))
 RELCFLAGS := -O3
 
 .PHONY: all clean debug release remake
@@ -58,8 +59,8 @@ debug: $(DBGEXE)
 $(DBGEXE): $(DBGOBJS)
 	$(CC) -o $@ $^ $(LDFLAGS)
 
-$(DBGDIR)/%.o: %.c
-	@mkdir -p $(DBGDIR)
+$(DBGOBJDIR)/%.o: %.c %.h $(DEPS)
+	@mkdir -p $(DBGOBJDIR)
 	$(CC) -c $(CFLAGS) $(CXXFLAGS) $(DBGCFLAGS) -o $@ $<
 
 # Release rules
@@ -68,8 +69,8 @@ release: $(RELEXE)
 $(RELEXE): $(RELOBJS)
 	$(CC) -o $@ $^ $(LDFLAGS)
 
-$(RELDIR)/%.o: %.c
-	@mkdir -p $(RELDIR)
+$(RELOBJDIR)/%.o: %.c %.h $(DEPS)
+	@mkdir -p $(RELOBJDIR)
 	$(CC) -c $(CFLAGS) $(CXXFLAGS) $(RELCFLAGS) -o $@ $<
 
 # Clean and build
@@ -77,4 +78,4 @@ remake: clean all
 
 # Clean build files
 clean:
-	$(RM) -r $(BIN)
+	$(RM) -r $(DBGOBJS) $(DBGEXE) $(RELOBJS) $(RELEXE)
