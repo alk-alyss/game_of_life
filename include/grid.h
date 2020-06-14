@@ -7,7 +7,7 @@
 
 Grid initGrid(Uint64 _rows, Uint64 _cols);
 Grid resizeGrid(Grid grid, Uint64 _rows, Uint64 _cols);
-void moveGrid(Sint64 offsetX, Sint64 offsetY);
+void moveGrid(double offsetX, double offsetY);
 void flipCell(Grid grid, SDL_Point mouse);
 void clearGrid(Grid grid);
 void randomStartingState(Grid grid);

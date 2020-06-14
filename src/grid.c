@@ -29,7 +29,7 @@ Grid resizeGrid(Grid grid, Uint64 _rows, Uint64 _cols){
 	return newGrid;
 }
 
-void moveGrid(Sint64 offsetX, Sint64 offsetY){
+void moveGrid(double offsetX, double offsetY){
 	gridOffX += offsetX;
 	gridOffY += offsetY;
 }
@@ -94,10 +94,10 @@ void displayGrid(Grid grid){
 		for(Uint64 j=0; j<cols; j++){
 			if(grid[i][j]){
 				SDL_Rect rect;
-				rect.y = i * cellSize + 1 - gridOffY;
-				rect.x = j * cellSize + 1 - gridOffX;
-				rect.w = cellSize - 1;
-				rect.h = rect.w;
+				rect.y = (Sint32) (i * cellSize + 1 - gridOffY);
+				rect.x = (Sint32) (j * cellSize + 1 - gridOffX);
+				rect.w = (Sint32) cellSize - 1;
+				rect.h = (Sint32) rect.w;
 				drawRect(rect, White);
 			}
 		}
