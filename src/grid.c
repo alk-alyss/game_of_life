@@ -3,22 +3,22 @@
 bool drawing;
 double gridOffX = 0, gridOffY = 0;
 
-Grid initGrid(Uint32 _rows, Uint32 _cols){
+Grid initGrid(Uint64 _rows, Uint64 _cols){
 	Grid grid = calloc(_rows, sizeof *grid);
-	for(Uint32 i=0; i<_rows; i++){
+	for(Uint64 i=0; i<_rows; i++){
 		grid[i] = calloc(_cols, sizeof **grid);
-		for(Uint32 j=0; j<_cols; j++){
+		for(Uint64 j=0; j<_cols; j++){
 			grid[i][j] = false;
 		}
 	}
 	return grid;
 }
 
-Grid resizeGrid(Grid grid, Uint32 _rows, Uint32 _cols){
+Grid resizeGrid(Grid grid, Uint64 _rows, Uint64 _cols){
 	Grid newGrid = initGrid(_rows, _cols);
 
-	for(Uint32 i=0; i<_rows; i++){
-		for(Uint32 j=0; j<_cols; j++){
+	for(Uint64 i=0; i<_rows; i++){
+		for(Uint64 j=0; j<_cols; j++){
 			if(i < rows && j < cols){
 				newGrid[i][j] = grid[i][j];
 			}
@@ -29,7 +29,7 @@ Grid resizeGrid(Grid grid, Uint32 _rows, Uint32 _cols){
 	return newGrid;
 }
 
-void moveGrid(Sint32 offsetX, Sint32 offsetY){
+void moveGrid(Sint64 offsetX, Sint64 offsetY){
 	gridOffX += offsetX;
 	gridOffY += offsetY;
 }
@@ -40,22 +40,22 @@ void flipCell(Grid grid, SDL_Point mouse){
 }
 
 void clearGrid(Grid grid){
-	for(Uint32 i=0; i<rows; i++){
-		for(Uint32 j=0; j<cols; j++){
+	for(Uint64 i=0; i<rows; i++){
+		for(Uint64 j=0; j<cols; j++){
 			grid[i][j] = false;
 		}
 	}
 }
 
 void randomStartingState(Grid grid){
-	for(Uint32 i=0; i<rows; i++){
-		for(Uint32 j=0; j<cols; j++){
+	for(Uint64 i=0; i<rows; i++){
+		for(Uint64 j=0; j<cols; j++){
 			grid[i][j] = rand()/(double)RAND_MAX > 0.5;
 		}
 	}
 }
 
-Uint8 getNeighbourSum(Grid grid, Uint32 i, Uint32 j){
+Uint8 getNeighbourSum(Grid grid, Uint64 i, Uint64 j){
 	Uint8 sum = 0;
 	for(Sint8 yoff=-1; yoff<=1; yoff++){
 		for(Sint8 xoff=-1; xoff<=1; xoff++){
@@ -72,8 +72,8 @@ Uint8 getNeighbourSum(Grid grid, Uint32 i, Uint32 j){
 Grid nextState(Grid grid){
 	Grid next = initGrid(rows, cols);
 
-	for(Uint32 i=0; i<rows; i++){
-		for(Uint32 j=0; j<cols; j++){
+	for(Uint64 i=0; i<rows; i++){
+		for(Uint64 j=0; j<cols; j++){
 			next[i][j] = grid[i][j];
 			Uint8 sum = getNeighbourSum(grid, i, j);
 			if(grid[i][j]){
@@ -90,8 +90,8 @@ Grid nextState(Grid grid){
 }
 
 void displayGrid(Grid grid){
-	for(Uint32 i=0; i<rows; i++){
-		for(Uint32 j=0; j<cols; j++){
+	for(Uint64 i=0; i<rows; i++){
+		for(Uint64 j=0; j<cols; j++){
 			if(grid[i][j]){
 				SDL_Rect rect;
 				rect.y = i * cellSize + 1 - gridOffY;
@@ -123,7 +123,7 @@ void drawGrid(Grid* grid){
 
 }
 
-SDL_Point screenToGrid(Uint32 x, Uint32 y){
+SDL_Point screenToGrid(Uint64 x, Uint64 y){
 	SDL_Point index;
 	index.x = (int)((double)(x + gridOffX)/cellSize);
 	index.y = (int)((double)(y + gridOffY)/cellSize);
