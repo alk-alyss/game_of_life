@@ -8,7 +8,7 @@ void mainInput(Grid* grid){
 	SDL_Event event;
 	
 	while(SDL_PollEvent(&event)){
-		switch (event.type){
+		switch(event.type){
 			case SDL_QUIT:
 				exit(0);
 				break;
@@ -27,6 +27,7 @@ void mainInput(Grid* grid){
 					default:
 						break;
 				}
+				break;
 
 			case SDL_MOUSEWHEEL:
 				mouseWheelEvent(grid, event);
@@ -42,7 +43,7 @@ Uint8 menuInput(SDL_Rect* buttons){
 	SDL_Event event;
 	
 	while(SDL_PollEvent(&event)){
-		switch (event.type){
+		switch(event.type){
 			case SDL_QUIT:
 				exit(0);
 				break;
@@ -73,16 +74,23 @@ void gridInput(Grid* grid){
 	SDL_Event event;
 	
 	while(SDL_PollEvent(&event)){
-		switch (event.type){
+		switch(event.type){
 			SDL_Point mouse;
 			case SDL_QUIT:
 				exit(0);
 				break;
 
 			case SDL_MOUSEBUTTONDOWN:
-				mouse.x = event.button.x;
-				mouse.y = event.button.y;
-				flipState(*grid, mouse);
+				if(event.button.button == SDL_BUTTON_LEFT){
+					mouse.x = event.button.x;
+					mouse.y = event.button.y;
+					flipCell(*grid, mouse);
+				}
+				break;
+
+			case SDL_MOUSEMOTION:
+				if(event.motion.state == SDL_BUTTON_RMASK)
+					moveGrid(-1*event.motion.xrel, -1*event.motion.yrel);
 				break;
 
 			case SDL_KEYDOWN:
@@ -138,7 +146,15 @@ void mouseWheelEvent(Grid* grid, SDL_Event event){
 	if(newCols < cols) newCols = cols;
 
 	*grid = resizeGrid(*grid, newRows, newCols);
-	// moveGrid(*grid, mouse);
+
+	// Uint32 visRows = SCREEN_HEIGHT/cellSize;
+	// Uint32 visCols = SCREEN_WIDTH/cellSize;
+	// double ratioX = (double)(mouse.x)/SCREEN_WIDTH;
+	// double ratioY = (double)(mouse.y)/SCREEN_HEIGHT;
+	// double diffX = visCols*newCellSize - SCREEN_WIDTH;
+	// double diffY = visRows*newCellSize - SCREEN_HEIGHT;
+	// moveGrid(5,5);
+
 	initState = resizeGrid(initState, newRows, newCols);
 
 	rows = newRows;

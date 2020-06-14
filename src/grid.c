@@ -1,6 +1,7 @@
 #include "grid.h"
 
 bool drawing;
+double gridOffX = 0, gridOffY = 0;
 
 Grid initGrid(Uint32 _rows, Uint32 _cols){
 	Grid grid = calloc(_rows, sizeof *grid);
@@ -28,23 +29,12 @@ Grid resizeGrid(Grid grid, Uint32 _rows, Uint32 _cols){
 	return newGrid;
 }
 
-void moveGrid(Grid grid, SDL_Point mouse){
-	Uint32 percentX = mouse.x/SCREEN_WIDTH;
-	Uint32 percentY = mouse.y/SCREEN_HEIGHT;
-	Uint32 hiddenX = cols*cellSize - SCREEN_WIDTH;
-	Uint32 hiddenY = rows*cellSize - SCREEN_HEIGHT;
-	Uint32 moveX = hiddenX * percentX;
-	Uint32 moveY = hiddenY * percentY;
-
-	for(int i=0; i<rows; i++){
-		for(int j=0; j<cols; j++){
-			// grid[i][j].rect.x -= moveX;
-			// grid[i][j].rect.y -= moveY;
-		}
-	}
+void moveGrid(int offsetX, int offsetY){
+	gridOffX += offsetX;
+	gridOffY += offsetY;
 }
 
-void flipState(Grid grid, SDL_Point mouse){
+void flipCell(Grid grid, SDL_Point mouse){
 	mouse = screenToGrid(mouse.x, mouse.y);
 	grid[mouse.y][mouse.x] = !grid[mouse.y][mouse.x];
 }
@@ -52,7 +42,7 @@ void flipState(Grid grid, SDL_Point mouse){
 void clearGrid(Grid grid){
 	for(Uint32 i=0; i<rows; i++){
 		for(Uint32 j=0; j<cols; j++){
-			grid[i][j] = true;
+			grid[i][j] = false;
 		}
 	}
 }
@@ -60,7 +50,7 @@ void clearGrid(Grid grid){
 void randomStartingState(Grid grid){
 	for(Uint32 i=0; i<rows; i++){
 		for(Uint32 j=0; j<cols; j++){
-			grid[i][j] = rand()/(double)RAND_MAX > 0.5 ? true : false;
+			grid[i][j] = rand()/(double)RAND_MAX > 0.5;
 		}
 	}
 }
@@ -73,7 +63,7 @@ Uint8 getNeighbourSum(Grid grid, Uint32 i, Uint32 j){
 			Sint64 yIndex = i + yoff;
 			Sint64 xIndex = j + xoff;
 			if(yIndex>=0 && yIndex<rows && xIndex>=0 && xIndex<cols)
-				sum += grid[yIndex][xIndex] ? 1 : 0;
+				sum += grid[yIndex][xIndex];
 		}
 	}
 	return sum;
@@ -104,8 +94,8 @@ void displayGrid(Grid grid){
 		for(Uint32 j=0; j<cols; j++){
 			if(grid[i][j]){
 				SDL_Rect rect;
-				rect.y = i * cellSize + 1;
-				rect.x = j * cellSize + 1;
+				rect.y = i * cellSize + 1 - gridOffY;
+				rect.x = j * cellSize + 1 - gridOffX;
 				rect.w = cellSize - 1;
 				rect.h = rect.w;
 				drawRect(rect, White);
@@ -116,6 +106,8 @@ void displayGrid(Grid grid){
 
 void drawGrid(Grid* grid){
 	drawing = 1;
+	gridOffX = 0;
+	gridOffY = 0;
 	while(drawing){
 		prepareScene(Black);
 		
@@ -132,8 +124,8 @@ void drawGrid(Grid* grid){
 
 SDL_Point screenToGrid(Uint32 x, Uint32 y){
 	SDL_Point index;
-	index.x = (int) x/cellSize;
-	index.y = (int) y/cellSize;
+	index.x = (int)((double)(x + gridOffX)/cellSize);
+	index.y = (int)((double)(y + gridOffY)/cellSize);
 	return index;
 }
 
