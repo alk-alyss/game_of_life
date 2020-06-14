@@ -21,7 +21,7 @@ extern SDL_DisplayMode dm;
 
 extern bool running, menuActive, drawing, paused, advance;
 
-extern Uint32 rows, cols, newRows, newCols;
+extern Uint32 rows, cols;
 
 extern double cellSize;
 

@@ -3,7 +3,7 @@
 App app;
 bool running, paused, advance = false;
 Uint32 rows, cols;
-double cellSize = 10;
+double cellSize = DEFAULT_CELLSIZE;
 Grid initState;
 
 int main(int argc, char* argv[]){

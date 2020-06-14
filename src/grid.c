@@ -29,7 +29,7 @@ Grid resizeGrid(Grid grid, Uint32 _rows, Uint32 _cols){
 	return newGrid;
 }
 
-void moveGrid(int offsetX, int offsetY){
+void moveGrid(Sint32 offsetX, Sint32 offsetY){
 	gridOffX += offsetX;
 	gridOffY += offsetY;
 }
@@ -108,6 +108,7 @@ void drawGrid(Grid* grid){
 	drawing = 1;
 	gridOffX = 0;
 	gridOffY = 0;
+	cellSize = DEFAULT_CELLSIZE;
 	while(drawing){
 		prepareScene(Black);
 		

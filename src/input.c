@@ -1,7 +1,5 @@
 #include "input.h"
 
-Uint32 newRows, newCols;
-
 void mouseWheelEvent(Grid* grid, SDL_Event event);
 
 void mainInput(Grid* grid){
@@ -133,13 +131,13 @@ void mouseWheelEvent(Grid* grid, SDL_Event event){
 	SDL_Point mouse;
 	if(event.wheel.y < 0 && cellSize - 2 < 0.001) return;
 	SDL_GetMouseState(&mouse.x, &mouse.y);
-	newRows = rows;
-	newCols = cols;
-	cellSize += event.wheel.y * 0.1;
+	Uint32 newRows = rows;
+	Uint32 newCols = cols;
+	double newCellSize = cellSize + event.wheel.y * 0.1;
 
-	if(cellSize){
-		newRows = (Uint32) (SCREEN_HEIGHT/cellSize);
-		newCols = (Uint32) (SCREEN_WIDTH/cellSize);
+	if(newCellSize){
+		newRows = (Uint32) (SCREEN_HEIGHT/newCellSize);
+		newCols = (Uint32) (SCREEN_WIDTH/newCellSize);
 	}
 
 	if(newRows < rows) newRows = rows;
@@ -147,16 +145,25 @@ void mouseWheelEvent(Grid* grid, SDL_Event event){
 
 	*grid = resizeGrid(*grid, newRows, newCols);
 
-	// Uint32 visRows = SCREEN_HEIGHT/cellSize;
-	// Uint32 visCols = SCREEN_WIDTH/cellSize;
-	// double ratioX = (double)(mouse.x)/SCREEN_WIDTH;
-	// double ratioY = (double)(mouse.y)/SCREEN_HEIGHT;
-	// double diffX = visCols*newCellSize - SCREEN_WIDTH;
-	// double diffY = visRows*newCellSize - SCREEN_HEIGHT;
-	// moveGrid(5,5);
+	double visRows = SCREEN_HEIGHT/cellSize;
+	double visCols = SCREEN_WIDTH/cellSize;
+	double ratioY = (double)(mouse.y)/SCREEN_HEIGHT;
+	double ratioX = (double)(mouse.x)/SCREEN_WIDTH;
+	double diffY = visRows*newCellSize - SCREEN_HEIGHT;
+	double diffX = visCols*newCellSize - SCREEN_WIDTH;
+	Sint32 offY = diffY * ratioY;
+	Sint32 offX = diffX * ratioX;
+
+	// if(event.wheel.y > 0){
+	// 	offX *= -1;
+	// 	offY *= -1;
+	// }
+
+	moveGrid(offX, offY);
 
 	initState = resizeGrid(initState, newRows, newCols);
 
 	rows = newRows;
 	cols = newCols;
+	cellSize = newCellSize;
 }

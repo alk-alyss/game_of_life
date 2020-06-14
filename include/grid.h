@@ -7,7 +7,7 @@
 
 Grid initGrid(Uint32 _rows, Uint32 _cols);
 Grid resizeGrid(Grid grid, Uint32 _rows, Uint32 _cols);
-void moveGrid(int offsetX, int offsetY);
+void moveGrid(Sint32 offsetX, Sint32 offsetY);
 void flipCell(Grid grid, SDL_Point mouse);
 void clearGrid(Grid grid);
 void randomStartingState(Grid grid);
