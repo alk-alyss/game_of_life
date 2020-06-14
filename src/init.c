@@ -17,7 +17,7 @@ void initSDL(void){
 
 	SDL_GetDesktopDisplayMode(0, &dm);
 
-	app.window = SDL_CreateWindow("Game of Life", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, dm.w, dm.h, windowFlags);
+	app.window = SDL_CreateWindow("Game of Life", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, windowFlags);
 	
 	if(!app.window){
 		printf("Failed to open window: %s\n", SDL_GetError());
