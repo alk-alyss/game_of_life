@@ -13,7 +13,8 @@ Uint8 menu(void){
 		buttons[i].y = SCREEN_HEIGHT/(MENU_BUTTONS+1) * (i+1) - buttons[i].h/2;
 	}
 
-	SDL_Color menuColor = {7, 143, 173, 255};
+	// SDL_Color menuColor = {7, 143, 173, 255};
+	SDL_Color menuColor = Black;
 
 	menuActive = 1;
 	while(menuActive){
