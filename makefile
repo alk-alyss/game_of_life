@@ -51,10 +51,11 @@ RELCFLAGS := -O3
 .PHONY: all clean debug release remake
 
 # Default build
-all: debug
+all: release
 
 # Debug rules
 debug: $(DBGEXE)
+	@cp arial.ttf $(DBGDIR)/arial.ttf
 
 $(DBGEXE): $(DBGOBJS)
 	$(CC) -o $@ $^ $(LDFLAGS)
@@ -65,6 +66,7 @@ $(DBGOBJDIR)/%.o: %.c %.h $(DEPS)
 
 # Release rules
 release: $(RELEXE)
+	@cp arial.ttf $(RELDIR)/arial.ttf
 
 $(RELEXE): $(RELOBJS)
 	$(CC) -o $@ $^ $(LDFLAGS)
