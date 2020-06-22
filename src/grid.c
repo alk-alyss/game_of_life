@@ -1,7 +1,8 @@
 #include "grid.h"
 
 bool drawing;
-double gridOffX = 0, gridOffY = 0;
+double gridOffX = 200;
+double gridOffY = 200;
 
 Grid initGrid(Uint64 _rows, Uint64 _cols){
 	Grid grid = calloc(_rows, sizeof *grid);
@@ -48,8 +49,8 @@ void clearGrid(Grid grid){
 }
 
 void randomStartingState(Grid grid){
-	for(Uint64 i=0; i<rows; i++){
-		for(Uint64 j=0; j<cols; j++){
+	for(Uint64 i=MARGIN/2; i<rows-MARGIN/2; i++){
+		for(Uint64 j=MARGIN/2; j<cols-MARGIN/2; j++){
 			grid[i][j] = rand()/(double)RAND_MAX > 0.5;
 		}
 	}
@@ -90,6 +91,10 @@ Grid nextState(Grid grid){
 }
 
 void displayGrid(Grid grid){
+	gridOffX = gridOffX < MARGIN/2*cellSize ? MARGIN/2*cellSize : gridOffX;
+	gridOffY = gridOffY < MARGIN/2*cellSize ? MARGIN/2*cellSize : gridOffY;
+	gridOffX = gridOffX > (cols-MARGIN/2)*cellSize - SCREEN_WIDTH ? (cols-MARGIN/2)*cellSize - SCREEN_WIDTH : gridOffX;
+	gridOffY = gridOffY > (rows-MARGIN/2)*cellSize - SCREEN_HEIGHT ? (rows-MARGIN/2)*cellSize - SCREEN_HEIGHT : gridOffY;
 	for(Uint64 i=0; i<rows; i++){
 		for(Uint64 j=0; j<cols; j++){
 			if(grid[i][j]){
@@ -106,8 +111,8 @@ void displayGrid(Grid grid){
 
 void drawGrid(Grid* grid){
 	drawing = 1;
-	gridOffX = 0;
-	gridOffY = 0;
+	gridOffX = 20*cellSize;
+	gridOffY = 20*cellSize;
 	cellSize = DEFAULT_CELLSIZE;
 	while(drawing){
 		prepareScene(Black);

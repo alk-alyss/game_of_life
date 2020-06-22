@@ -56,7 +56,7 @@ Uint8 menuInput(SDL_Rect* buttons){
 					menuActive = false;
 					return 1;
 				}
-				else if(SDL_PointInRect(&mouse, &buttons[3])){
+				else if(SDL_PointInRect(&mouse, &buttons[2])){
 					exit(0);
 				}
 				break;
@@ -136,8 +136,8 @@ void mouseWheelEvent(Grid* grid, SDL_Event event){
 	double newCellSize = cellSize + event.wheel.y * 0.05;
 
 	if(newCellSize){
-		newRows = (Uint64) (SCREEN_HEIGHT/newCellSize);
-		newCols = (Uint64) (SCREEN_WIDTH/newCellSize);
+		newRows = (Uint64) (SCREEN_HEIGHT/newCellSize) + MARGIN;
+		newCols = (Uint64) (SCREEN_WIDTH/newCellSize) + MARGIN;
 	}
 
 	if(newRows < rows) newRows = rows;
@@ -167,5 +167,5 @@ void mouseWheelEvent(Grid* grid, SDL_Event event){
 	// 	offY *= -1;
 	// }
 
-	moveGrid(offX, offY);
+	moveGrid(0, 0);
 }

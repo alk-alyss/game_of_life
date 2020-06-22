@@ -26,8 +26,8 @@ Uint8 menu(void){
 
 		drawText("Random", menuFont, Black, buttons[0]);
 		drawText("Draw", menuFont, Black, buttons[1]);
-		drawText("Help", menuFont, Black, buttons[2]);
-		drawText("Quit", menuFont, Black, buttons[3]);
+		// drawText("Help", menuFont, Black, buttons[2]);
+		drawText("Quit", menuFont, Black, buttons[2]);
 
 		mode = menuInput(buttons);
 

@@ -13,8 +13,8 @@ int main(int argc, char* argv[]){
 	initSDL();
 	atexit(cleanup);
 
-	rows = SCREEN_HEIGHT/cellSize;
-	cols = SCREEN_WIDTH/cellSize;
+	rows = SCREEN_HEIGHT/cellSize + MARGIN;
+	cols = SCREEN_WIDTH/cellSize + MARGIN;
 
 	initState = initGrid(rows, cols);
 
