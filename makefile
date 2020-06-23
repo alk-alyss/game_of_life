@@ -3,6 +3,7 @@ PROG := game_of_life
 BIN	:= bin
 SRC	:= src
 INCLUDE	:= include
+LIBS	:= lib
 DEPS := defs.h common.h structs.h
 
 ifeq ($(OS),Windows_NT)
@@ -23,12 +24,13 @@ CC := gcc
 WFLAGS := -Wall -Wstrict-prototypes -Wmissing-prototypes
 
 CINCLUDES := $(patsubst %,-I%, $(INCLUDEDIRS:%/=%))
+LIBSFLAG  := $(patsubst %,-L%, $(LIBS:%/=%))
 
 CFLAGS  += -std=c99 ${WFLAGS} 
-CXXFLAGS += `sdl2-config --cflags` $(CINCLUDES)
+CXXFLAGS += $(CINCLUDES)
 
 # Linker options
-LDFLAGS += `sdl2-config --libs` -lSDL2_ttf -lm
+LDFLAGS += $(LIBSFLAG) -lSDL2 -lSDL2_ttf -lm -Wl,-rpath='$$ORIGIN/../../lib'
 
 # Source and Object definitions
 SRCS := $(wildcard $(patsubst %,%/*.c, $(SRCDIRS)))
@@ -55,7 +57,7 @@ all: release
 
 # Debug rules
 debug: $(DBGEXE)
-	@cp arial.ttf $(DBGDIR)/arial.ttf
+	@cp $(SRC)/arial.ttf $(DBGDIR)/arial.ttf
 
 $(DBGEXE): $(DBGOBJS)
 	$(CC) -o $@ $^ $(LDFLAGS)
@@ -66,7 +68,7 @@ $(DBGOBJDIR)/%.o: %.c %.h $(DEPS)
 
 # Release rules
 release: $(RELEXE)
-	@cp arial.ttf $(RELDIR)/arial.ttf
+	@cp $(SRC)/arial.ttf $(RELDIR)/arial.ttf
 
 $(RELEXE): $(RELOBJS)
 	$(CC) -o $@ $^ $(LDFLAGS)
@@ -80,4 +82,4 @@ remake: clean all
 
 # Clean build files
 clean:
-	$(RM) -r $(DBGOBJS) $(DBGEXE) $(RELOBJS) $(RELEXE)
+	$(RM) -r $(BIN)
