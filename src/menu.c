@@ -16,7 +16,7 @@ Uint8 menu(void){
 	// SDL_Color menuColor = {7, 143, 173, 255};
 	SDL_Color menuColor = Black;
 
-	menuActive = 1;
+	menuActive = true;
 	while(menuActive){
 		prepareScene(menuColor);
 		
@@ -26,8 +26,8 @@ Uint8 menu(void){
 
 		drawText("Random", menuFont, Black, buttons[0]);
 		drawText("Draw", menuFont, Black, buttons[1]);
-		// drawText("Help", menuFont, Black, buttons[2]);
-		drawText("Quit", menuFont, Black, buttons[2]);
+		drawText("Rule", menuFont, Black, buttons[2]);
+		drawText("Quit", menuFont, Black, buttons[3]);
 
 		mode = menuInput(buttons);
 
@@ -36,5 +36,6 @@ Uint8 menu(void){
 		SDL_Delay(50);
 	}
 
+	free(buttons);
 	return mode;
 }

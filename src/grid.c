@@ -1,8 +1,9 @@
 #include "grid.h"
 
-bool drawing;
+bool drawing, gettingRule;
 double gridOffX = 200;
 double gridOffY = 200;
+Rule rule;
 
 Grid initGrid(Uint64 _rows, Uint64 _cols){
 	Grid grid = calloc(_rows, sizeof *grid);
@@ -78,16 +79,74 @@ Grid nextState(Grid grid){
 			next[i][j] = grid[i][j];
 			Uint8 sum = getNeighbourSum(grid, i, j);
 			if(grid[i][j]){
-				if(sum < 2 || sum > 3) next[i][j] = false;
+				next[i][j] = false;
+				for(int k = 0; k < rule->slen; k++){
+					if(sum == rule->s[k]) next[i][j] = true;
+				}
 			}
 			else{
-				if(sum == 3) next[i][j] = true;
+				for(int k = 0; k < rule->blen; k++){
+					if(sum == rule->b[k]) next[i][j] = true;
+				}
 			}
 		}
 	}
 
 	free(grid);
 	return next;
+}
+
+void initRule(void){
+	rule = malloc(sizeof *rule);
+	rule->blen = 1;
+	rule->b = malloc(rule->blen * sizeof *rule->b);
+	rule->slen = 2;
+	rule->s = malloc(rule->slen * sizeof *rule->s);
+
+	rule->b[0] = 2;
+
+	rule->s[0] = 2;
+	rule->s[1] = 3;
+}
+
+void getRule(void){
+	SDL_Rect* text = calloc(RULE_TEXT, sizeof *text);
+	for(Uint8 i=0; i<RULE_TEXT; i++){
+		text[i].w = 400;
+		text[i].h = 80;
+		text[i].x = SCREEN_WIDTH/2 - text[i].w/2;
+		text[i].y = SCREEN_HEIGHT/6 * pow(3.5, i) - text[i].h/2;
+	}
+
+	SDL_Rect* buttons = calloc(RULE_BUTTONS, sizeof *buttons);
+	for(Uint8 i=0; i<RULE_BUTTONS; i++){
+		buttons[i].h = 100;
+		buttons[i].w = 200;
+		buttons[i].x = SCREEN_WIDTH/(RULE_BUTTONS+1) * (i+1) - buttons[i].w/2;
+		buttons[i].y = SCREEN_HEIGHT/8 * 3 - buttons[i].h/2;
+	}
+
+
+	gettingRule = true;
+	while(gettingRule){
+		prepareScene(Black);
+
+		for(Uint8 i=0; i<RULE_BUTTONS; i++){
+			drawRect(buttons[i], White);
+		}
+
+		drawText("Select Rule", ruleFont, White, text[0]);
+		drawText("Custom", ruleFont, White, text[1]);
+		
+		ruleInput();
+
+		presentScene();
+		
+		SDL_Delay(50);
+	}
+
+	free(text);
+	free(buttons);
 }
 
 void displayGrid(Grid grid){
@@ -110,7 +169,7 @@ void displayGrid(Grid grid){
 }
 
 void drawGrid(Grid* grid){
-	drawing = 1;
+	drawing = true;
 	gridOffX = 20*cellSize;
 	gridOffY = 20*cellSize;
 	cellSize = DEFAULT_CELLSIZE;
@@ -125,7 +184,6 @@ void drawGrid(Grid* grid){
 		
 		SDL_Delay(50);
 	}
-
 }
 
 SDL_Point screenToGrid(Uint64 x, Uint64 y){

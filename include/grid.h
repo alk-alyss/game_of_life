@@ -13,6 +13,8 @@ void clearGrid(Grid grid);
 void randomStartingState(Grid grid);
 Uint8 getNeighbourSum(Grid grid, Uint64 i, Uint64 j);
 Grid nextState(Grid grid);
+void initRule(void);
+void getRule(void);
 void displayGrid(Grid grid);
 void drawGrid(Grid* grid);
 SDL_Point screenToGrid(Uint64 x, Uint64 y);

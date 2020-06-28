@@ -16,11 +16,13 @@ int main(int argc, char* argv[]){
 	rows = SCREEN_HEIGHT/cellSize + MARGIN;
 	cols = SCREEN_WIDTH/cellSize + MARGIN;
 
+	initRule();
+
 	initState = initGrid(rows, cols);
 
 	for(bool run=false; ;run=true){
-		running = 1;
-		paused = 0;
+		running = true;
+		paused = false;
 		Grid grid = initGrid(rows, cols);
 
 		if(run){
@@ -37,6 +39,9 @@ int main(int argc, char* argv[]){
 				break;
 			case 1:
 				drawGrid(&grid);
+				break;
+			case 2:
+				getRule();
 				break;
 		}
 

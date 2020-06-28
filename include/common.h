@@ -19,13 +19,13 @@ extern App app;
 
 extern SDL_DisplayMode dm;
 
-extern bool running, menuActive, drawing, paused, advance;
+extern bool running, menuActive, drawing, paused, advance, gettingRule;
 
 extern Uint64 rows, cols;
 
 extern double cellSize;
 
-extern TTF_Font* menuFont;
+extern TTF_Font *menuFont, *ruleFont;
 
 extern SDL_Color White, Black;
 

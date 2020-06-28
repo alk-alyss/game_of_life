@@ -27,6 +27,11 @@ void mainInput(Grid* grid){
 				}
 				break;
 
+			case SDL_MOUSEMOTION:
+				if(event.motion.state == SDL_BUTTON_RMASK)
+					moveGrid(-1*event.motion.xrel, -1*event.motion.yrel);
+				break;
+
 			case SDL_MOUSEWHEEL:
 				mouseWheelEvent(grid, event);
 				break;
@@ -57,6 +62,10 @@ Uint8 menuInput(SDL_Rect* buttons){
 					return 1;
 				}
 				else if(SDL_PointInRect(&mouse, &buttons[2])){
+					menuActive = false;
+					return 2;
+				}
+				else if(SDL_PointInRect(&mouse, &buttons[3])){
 					exit(0);
 				}
 				break;
@@ -127,8 +136,32 @@ void gridInput(Grid* grid){
 	}
 }
 
+void ruleInput(void){
+	SDL_Event event;
+	
+	while(SDL_PollEvent(&event)){
+		switch(event.type){
+			case SDL_QUIT:
+				exit(0);
+				break;
+
+			case SDL_KEYDOWN:
+				switch(event.key.keysym.sym){
+					case SDLK_ESCAPE:
+						gettingRule = false;
+						running = false;
+						break;
+				}
+				break;
+			
+			default:
+				break;
+		}
+	}
+}
+
 void mouseWheelEvent(Grid* grid, SDL_Event event){
-	if(event.wheel.y < 0 && cellSize - 2 < 0.001) return;
+	if(event.wheel.y < 0 && cellSize - 3 < 0.001) return;
 	SDL_Point mouse;
 	SDL_GetMouseState(&mouse.x, &mouse.y);
 	Uint64 newRows = rows;
@@ -149,16 +182,16 @@ void mouseWheelEvent(Grid* grid, SDL_Event event){
 	rows = newRows;
 	cols = newCols;
 
-	double visRows = SCREEN_HEIGHT/cellSize;
-	double visCols = SCREEN_WIDTH/cellSize;
-	// Sint64 ratioY = (Sint64)(mouse.y)/SCREEN_HEIGHT;
-	// Sint64 ratioX = (Sint64)(mouse.x)/SCREEN_WIDTH;
-	double ratioX = 0.5;
-	double ratioY = 0.5;
-	double diffY = visRows*newCellSize - SCREEN_HEIGHT;
-	double diffX = visCols*newCellSize - SCREEN_WIDTH;
-	double offY = diffY * ratioY / newCellSize;
-	double offX = diffX * ratioX / newCellSize;
+	// double visRows = SCREEN_HEIGHT/cellSize;
+	// double visCols = SCREEN_WIDTH/cellSize;
+	// // Sint64 ratioY = (Sint64)(mouse.y)/SCREEN_HEIGHT;
+	// // Sint64 ratioX = (Sint64)(mouse.x)/SCREEN_WIDTH;
+	// double ratioX = 0.5;
+	// double ratioY = 0.5;
+	// double diffY = visRows*newCellSize - SCREEN_HEIGHT;
+	// double diffX = visCols*newCellSize - SCREEN_WIDTH;
+	// double offY = diffY * ratioY / newCellSize;
+	// double offX = diffX * ratioX / newCellSize;
 
 	cellSize = newCellSize;
 
