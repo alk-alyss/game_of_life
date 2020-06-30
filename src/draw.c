@@ -1,3 +1,4 @@
+#include "common.h"
 #include "draw.h"
 
 SDL_Color White = {255, 255, 255 ,255};

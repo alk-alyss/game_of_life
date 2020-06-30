@@ -1,3 +1,6 @@
+#include "common.h"
+#include "draw.h"
+#include "input.h"
 #include "menu.h"
 
 bool menuActive;

@@ -1,3 +1,4 @@
+#include "common.h"
 #include "init.h"
 
 TTF_Font *menuFont, *ruleFont;

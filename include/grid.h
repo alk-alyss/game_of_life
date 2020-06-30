@@ -1,10 +1,6 @@
 #ifndef GRID_H
 #define GRID_H
 
-#include "common.h"
-#include "draw.h"
-#include "input.h"
-
 Grid initGrid(Uint64 _rows, Uint64 _cols);
 Grid resizeGrid(Grid grid, Uint64 _rows, Uint64 _cols);
 void moveGrid(double offsetX, double offsetY);

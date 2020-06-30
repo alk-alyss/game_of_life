@@ -1,3 +1,5 @@
+#include "common.h"
+#include "grid.h"
 #include "input.h"
 
 void zoomGrid(Grid* grid, SDL_Event event);
