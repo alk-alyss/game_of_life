@@ -4,6 +4,9 @@ TTF_Font *menuFont, *ruleFont;
 SDL_DisplayMode dm;
 
 void initSDL(void){
+	/*
+	Initialize SDL, create a window and a renderer, initialize fonts
+	*/
 	int rendererFlags, windowFlags;
 
 	rendererFlags = SDL_RENDERER_ACCELERATED;
@@ -48,6 +51,9 @@ void initSDL(void){
 }
 
 void cleanup(void){
+	/*
+	Cleanup resources, destroy renderer and window, exit program
+	*/
 	TTF_CloseFont(menuFont);
 
 	SDL_DestroyRenderer(app.renderer);

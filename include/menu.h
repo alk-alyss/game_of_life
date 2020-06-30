@@ -5,6 +5,6 @@
 #include "draw.h"
 #include "input.h"
 
-Uint8 menu(void);
+Sint8 menu(void);
 
 #endif

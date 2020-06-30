@@ -1,8 +1,11 @@
 #include "input.h"
 
-void mouseWheelEvent(Grid* grid, SDL_Event event);
+void zoomGrid(Grid* grid, SDL_Event event);
 
 void mainInput(Grid* grid){
+	/*
+	Simulation loop event handler
+	*/
 	SDL_Event event;
 	
 	while(SDL_PollEvent(&event)){
@@ -14,12 +17,15 @@ void mainInput(Grid* grid){
 			case SDL_KEYDOWN:
 				switch(event.key.keysym.sym){
 					case SDLK_ESCAPE:
+						// ESC = exit simulation to main menu
 						running = false;
 						break;
 					case SDLK_RETURN:
+						// ENTER = pause/restart simulation
 						paused = !paused;
 						break;
 					case SDLK_SPACE:
+						// SPACE = step simulation if paused
 						if(paused) *grid = nextState(*grid);
 						break;
 					default:
@@ -29,11 +35,13 @@ void mainInput(Grid* grid){
 
 			case SDL_MOUSEMOTION:
 				if(event.motion.state == SDL_BUTTON_RMASK)
+					// Moving the mouse while pressing RMB moves grid view
 					moveGrid(-1*event.motion.xrel, -1*event.motion.yrel);
 				break;
 
 			case SDL_MOUSEWHEEL:
-				mouseWheelEvent(grid, event);
+				// Zoom grid with mouse wheel
+				zoomGrid(grid, event);
 				break;
 
 			default:
@@ -42,7 +50,10 @@ void mainInput(Grid* grid){
 	}
 }
 
-Uint8 menuInput(SDL_Rect* buttons){
+Sint8 menuInput(SDL_Rect* buttons){
+	/*
+	Main menu event handler
+	*/
 	SDL_Event event;
 	
 	while(SDL_PollEvent(&event)){
@@ -52,21 +63,19 @@ Uint8 menuInput(SDL_Rect* buttons){
 				break;
 
 			case SDL_MOUSEBUTTONDOWN: ;
+				// Determine what button is pressed and return its index
 				SDL_Point mouse = {event.button.x, event.button.y};
 				if(SDL_PointInRect(&mouse, &buttons[0])){
-					menuActive = false;
 					return 0;
 				}
 				else if(SDL_PointInRect(&mouse, &buttons[1])){
-					menuActive = false;
 					return 1;
 				}
 				else if(SDL_PointInRect(&mouse, &buttons[2])){
-					menuActive = false;
 					return 2;
 				}
 				else if(SDL_PointInRect(&mouse, &buttons[3])){
-					exit(0);
+					return 3;
 				}
 				break;
 
@@ -74,10 +83,13 @@ Uint8 menuInput(SDL_Rect* buttons){
 				break;
 		}
 	}
-	return 0;
+	return -1;
 }
 
 void gridInput(Grid* grid){
+	/*
+	Draw screen event handler
+	*/
 	SDL_Event event;
 	
 	while(SDL_PollEvent(&event)){
@@ -88,6 +100,7 @@ void gridInput(Grid* grid){
 				break;
 
 			case SDL_MOUSEBUTTONDOWN:
+				// Change the state of the cell selected with the mouse
 				if(event.button.button == SDL_BUTTON_LEFT){
 					mouse.x = event.button.x;
 					mouse.y = event.button.y;
@@ -97,26 +110,32 @@ void gridInput(Grid* grid){
 
 			case SDL_MOUSEMOTION:
 				if(event.motion.state == SDL_BUTTON_RMASK)
+					// Moving the mouse while pressing RMB moves grid view
 					moveGrid(-1*event.motion.xrel, -1*event.motion.yrel);
 				break;
 
 			case SDL_KEYDOWN:
 				switch(event.key.keysym.sym){
 					case SDLK_RETURN:
+						// ENTER = start simulation
 						drawing = false;
 						break;
 					case SDLK_c:
+						// c = clear grid
 						clearGrid(*grid);
 						break;
 					case SDLK_g:
+						// g = add gosper glider gun at mouse position
 						SDL_GetMouseState(&mouse.x, &mouse.y);
 						addGosperGun(*grid, mouse);
 						break;
 					case SDLK_ESCAPE:
+						// ESC = exit to main menu
 						drawing = false;
 						running = false;
 						break;
 					case SDLK_SPACE:
+						// SPACE = step simulation
 						drawing = false;
 						paused = true;
 						advance = true;
@@ -127,7 +146,8 @@ void gridInput(Grid* grid){
 				break;
 
 			case SDL_MOUSEWHEEL:
-				mouseWheelEvent(grid, event);
+				// Zoom grid with mouse wheel
+				zoomGrid(grid, event);
 				break;
 
 			default:
@@ -137,6 +157,9 @@ void gridInput(Grid* grid){
 }
 
 void ruleInput(void){
+	/*
+	Rule selection event handler
+	*/
 	SDL_Event event;
 	
 	while(SDL_PollEvent(&event)){
@@ -148,6 +171,7 @@ void ruleInput(void){
 			case SDL_KEYDOWN:
 				switch(event.key.keysym.sym){
 					case SDLK_ESCAPE:
+						// ESC = exit to main menu
 						gettingRule = false;
 						running = false;
 						break;
@@ -160,7 +184,10 @@ void ruleInput(void){
 	}
 }
 
-void mouseWheelEvent(Grid* grid, SDL_Event event){
+void zoomGrid(Grid* grid, SDL_Event event){
+	/*
+	Function to handle zoom
+	*/
 	if(event.wheel.y < 0 && cellSize - 3 < 0.001) return;
 	SDL_Point mouse;
 	SDL_GetMouseState(&mouse.x, &mouse.y);
