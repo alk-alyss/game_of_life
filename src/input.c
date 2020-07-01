@@ -126,6 +126,9 @@ void gridInput(Grid* grid){
 						// c = clear grid
 						clearGrid(*grid);
 						break;
+					case SDLK_r:
+						randomStartingState(*grid);
+						break;
 					case SDLK_g:
 						// g = add gosper glider gun at mouse position
 						SDL_GetMouseState(&mouse.x, &mouse.y);
