@@ -17,7 +17,6 @@ int main(int argc, char* argv[]){
 	rows = SCREEN_HEIGHT/cellSize + MARGIN;
 	cols = SCREEN_WIDTH/cellSize + MARGIN;
 
-	initRule();
 	initOffset();
 
 	initState = initGrid(rows, cols);
@@ -48,9 +47,6 @@ int main(int argc, char* argv[]){
 				drawGrid(&grid);
 				break;
 			case 2:
-				getRule();
-				break;
-			case 3:
 				exit(0);
 				break;
 		}

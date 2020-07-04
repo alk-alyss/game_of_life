@@ -5,7 +5,6 @@
 
 bool drawing, gettingRule;
 double gridOffX, gridOffY;
-Rule rule;
 
 Grid initGrid(Uint64 _rows, Uint64 _cols){
 	/*
@@ -113,19 +112,13 @@ Grid nextState(Grid grid){
 			Uint8 sum = getNeighbourSum(grid, i, j);
 			// S rule
 			if(grid[i][j]){
-				// Kill live cell
-				next[i][j] = false;
-				// If sum is in s array turn alive
-				for(int k = 0; k < rule->slen; k++){
-					if(sum == rule->s[k]) next[i][j] = true;
-				}
+				// If sum < 2 or sum > 3 kill cell
+				if(sum < 2 || sum > 3) next[i][j] = false;
 			}
 			// B rule
 			else{
-				// If sum is in b array turn alive
-				for(int k = 0; k < rule->blen; k++){
-					if(sum == rule->b[k]) next[i][j] = true;
-				}
+				// If sum = 3 make cell alive
+				if(sum == 3) next[i][j] = true;
 			}
 		}
 	}
@@ -133,107 +126,6 @@ Grid nextState(Grid grid){
 	// Free old grid, return new
 	free(grid);
 	return next;
-}
-
-void initRule(void){
-	/*
-	Initialize rule to standard game of life rule B3S23
-	*/
-	rule = malloc(sizeof *rule);
-	rule->blen = 0;
-	rule->b = NULL;
-	rule->slen = 0;
-	rule->s = NULL;
-
-	setRule("3", "23");
-}
-
-void getRule(void){
-	/*
-	Choose rule screen
-	*/
-	// Title rectangles
-	SDL_Rect* title = calloc(RULE_TEXT, sizeof *title);
-	for(Uint8 i=0; i<RULE_TEXT; i++){
-		title[i].w = 400;
-		title[i].h = 80;
-		title[i].x = SCREEN_WIDTH/2 - title[i].w/2;
-		title[i].y = SCREEN_HEIGHT/6 * pow(3.5, i) - title[i].h/2;
-	}
-
-	// Button rectangles
-	SDL_Rect* buttons = calloc(RULE_BUTTONS, sizeof *buttons);
-	for(Uint8 i=0; i<RULE_BUTTONS; i++){
-		buttons[i].h = 100;
-		buttons[i].w = 200;
-		buttons[i].x = SCREEN_WIDTH/(RULE_BUTTONS+1) * (i+1) - buttons[i].w/2;
-		buttons[i].y = SCREEN_HEIGHT/8 * 3 - buttons[i].h/2;
-	}
-
-	// Rule selection loop
-	gettingRule = true;
-	Sint8 activeButton = 0;
-	while(gettingRule){
-
-		prepareScene(Black);
-
-		for(Uint8 i=0; i<RULE_BUTTONS; i++){
-			drawRect(buttons[i], White);
-		}
-
-		drawOutline(buttons[activeButton], White);
-
-		drawText("Select Rule", ruleFont, White, title[0]);
-		drawText("Custom", ruleFont, White, title[1]);
-
-		drawText("B3/S23", ruleFont, Black, buttons[0]);
-		drawText("B36/S23", ruleFont, Black, buttons[1]);
-		drawText("B2/S", ruleFont, Black, buttons[2]);
-		drawText("B1357/S1357", ruleFont, Black, buttons[3]);
-		
-		switch(ruleInput(buttons)){
-			case 0:
-				setRule("3", "23");
-				activeButton = 0;
-				break;
-			case 1:
-				setRule("36", "23");
-				activeButton = 1;
-				break;
-			case 2:
-				setRule("2", "");
-				activeButton = 2;
-				break;
-			case 3:
-				setRule("1357", "1357");
-				activeButton = 3;
-				break;
-			default:
-				break;
-		}
-
-		presentScene();
-		
-		SDL_Delay(50);
-	}
-
-	// Free resources
-	free(title);
-	free(buttons);
-}
-
-void setRule(char* b, char* s){
-	rule->blen = strlen(b);
-	rule->b = realloc(rule->b, rule->blen * sizeof *rule->b);
-	for(int i=0; i<rule->blen; i++){
-		rule->b[i] = b[i]-48;
-	}
-
-	rule->slen = strlen(s);
-	rule->s = realloc(rule->s, rule->slen * sizeof *rule->s);
-	for(int i=0; i<rule->slen; i++){
-		rule->s[i] = s[i]-48;
-	}
 }
 
 void displayGrid(Grid grid){

@@ -35,8 +35,7 @@ Sint8 menu(void){
 		// Draw button labels
 		drawText("Random", menuFont, Black, buttons[0]);
 		drawText("Draw", menuFont, Black, buttons[1]);
-		drawText("Rule", menuFont, Black, buttons[2]);
-		drawText("Quit", menuFont, Black, buttons[3]);
+		drawText("Quit", menuFont, Black, buttons[2]);
 
 		mode = menuInput(buttons);
 		if(mode != -1) menuActive = false;

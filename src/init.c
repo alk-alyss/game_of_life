@@ -1,7 +1,7 @@
 #include "common.h"
 #include "init.h"
 
-TTF_Font *menuFont, *ruleFont;
+TTF_Font *menuFont;
 SDL_DisplayMode dm;
 
 void initSDL(void){
@@ -43,7 +43,6 @@ void initSDL(void){
 	}
 
 	menuFont = TTF_OpenFont("arial.ttf", 50);
-	ruleFont = TTF_OpenFont("arial.ttf", 100);
 
 	if(menuFont == NULL || ruleFont == NULL) {
 		printf("TTF_OpenFont: %s\n", TTF_GetError());

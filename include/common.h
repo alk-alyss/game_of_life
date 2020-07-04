@@ -19,7 +19,7 @@ extern App app;
 
 extern SDL_DisplayMode dm;
 
-extern bool running, menuActive, drawing, paused, advance, gettingRule;
+extern bool running, menuActive, drawing, paused, advance;
 
 extern Uint64 rows, cols;
 

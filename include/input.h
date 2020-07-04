@@ -4,6 +4,5 @@
 void mainInput(Grid* grid);
 Sint8 menuInput(SDL_Rect* buttons);
 void gridInput(Grid* grid);
-Sint8 ruleInput(SDL_Rect* buttons);
 
 #endif

@@ -10,9 +10,6 @@
 
 #define MARGIN 200
 
-#define MENU_BUTTONS 4
-
-#define RULE_TEXT 2
-#define RULE_BUTTONS 4
+#define MENU_BUTTONS 3
 
 #endif
