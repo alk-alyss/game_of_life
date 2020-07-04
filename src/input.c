@@ -64,7 +64,7 @@ Sint8 menuInput(SDL_Rect* buttons){
 				exit(0);
 				break;
 
-			case SDL_MOUSEBUTTONDOWN: ;
+			case SDL_MOUSEBUTTONDOWN:;
 				// Determine what button is pressed and return its index
 				SDL_Point mouse = {event.button.x, event.button.y};
 				if(SDL_PointInRect(&mouse, &buttons[0])){
@@ -161,7 +161,7 @@ void gridInput(Grid* grid){
 	}
 }
 
-void ruleInput(void){
+Sint8 ruleInput(SDL_Rect* buttons){
 	/*
 	Rule selection event handler
 	*/
@@ -182,11 +182,29 @@ void ruleInput(void){
 						break;
 				}
 				break;
+
+			case SDL_MOUSEBUTTONDOWN:;
+				// Determine what button is pressed and return its index
+				SDL_Point mouse = {event.button.x, event.button.y};
+				if(SDL_PointInRect(&mouse, &buttons[0])){
+					return 0;
+				}
+				else if(SDL_PointInRect(&mouse, &buttons[1])){
+					return 1;
+				}
+				else if(SDL_PointInRect(&mouse, &buttons[2])){
+					return 2;
+				}
+				else if(SDL_PointInRect(&mouse, &buttons[3])){
+					return 3;
+				}
+				break;			
 			
 			default:
 				break;
 		}
 	}
+	return -1;
 }
 
 void zoomGrid(Grid* grid, SDL_Event event){

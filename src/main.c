@@ -18,6 +18,7 @@ int main(int argc, char* argv[]){
 	cols = SCREEN_WIDTH/cellSize + MARGIN;
 
 	initRule();
+	initOffset();
 
 	initState = initGrid(rows, cols);
 

@@ -2,6 +2,7 @@
 #define GRID_H
 
 Grid initGrid(Uint64 _rows, Uint64 _cols);
+void initOffset(void);
 Grid resizeGrid(Grid grid, Uint64 _rows, Uint64 _cols);
 void moveGrid(double offsetX, double offsetY);
 void flipCell(Grid grid, SDL_Point mouse);
@@ -11,6 +12,7 @@ Uint8 getNeighbourSum(Grid grid, Uint64 i, Uint64 j);
 Grid nextState(Grid grid);
 void initRule(void);
 void getRule(void);
+void setRule(char* b, char* s);
 void displayGrid(Grid grid);
 void drawGrid(Grid* grid);
 SDL_Point screenToGrid(Uint64 x, Uint64 y);

@@ -14,10 +14,23 @@ void prepareScene(SDL_Color bg){
 
 void drawRect(SDL_Rect rect, SDL_Color c){
 	/*
-	Draw the color c in the area defined by rect
+	Fill the area defined by rect with color c
 	*/
 	SDL_SetRenderDrawColor(app.renderer, c.r, c.g, c.b, c.a);
 	SDL_RenderFillRect(app.renderer, &rect);
+}
+
+void drawOutline(SDL_Rect rect, SDL_Color c){
+	/*
+	Draw an outline around the area defined by rect with color c
+	*/
+	int offset = 20;
+	rect.w += offset;
+	rect.h += offset;
+	rect.x -= offset/2;
+	rect.y -= offset/2;
+	SDL_SetRenderDrawColor(app.renderer, c.r, c.g, c.b, c.a);
+	SDL_RenderDrawRect(app.renderer, &rect);
 }
 
 void drawText(const char* text, TTF_Font* font, SDL_Color color, SDL_Rect rect){

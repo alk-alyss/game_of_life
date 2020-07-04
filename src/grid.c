@@ -4,8 +4,7 @@
 #include "grid.h"
 
 bool drawing, gettingRule;
-double gridOffX = 200;
-double gridOffY = 200;
+double gridOffX, gridOffY;
 Rule rule;
 
 Grid initGrid(Uint64 _rows, Uint64 _cols){
@@ -20,6 +19,11 @@ Grid initGrid(Uint64 _rows, Uint64 _cols){
 		}
 	}
 	return grid;
+}
+
+void initOffset(void){
+	gridOffX = MARGIN/2;
+	gridOffY = MARGIN/2;
 }
 
 Grid resizeGrid(Grid grid, Uint64 _rows, Uint64 _cols){
@@ -136,17 +140,12 @@ void initRule(void){
 	Initialize rule to standard game of life rule B3S23
 	*/
 	rule = malloc(sizeof *rule);
-	rule->blen = 1;
-	rule->b = malloc(rule->blen * sizeof *rule->b);
-	rule->slen = 2;
-	rule->s = malloc(rule->slen * sizeof *rule->s);
+	rule->blen = 0;
+	rule->b = NULL;
+	rule->slen = 0;
+	rule->s = NULL;
 
-	// B rule
-	rule->b[0] = 3;
-
-	// S rule
-	rule->s[0] = 2;
-	rule->s[1] = 3;
+	setRule("3", "23");
 }
 
 void getRule(void){
@@ -173,17 +172,45 @@ void getRule(void){
 
 	// Rule selection loop
 	gettingRule = true;
+	Sint8 activeButton = 0;
 	while(gettingRule){
+
 		prepareScene(Black);
 
 		for(Uint8 i=0; i<RULE_BUTTONS; i++){
 			drawRect(buttons[i], White);
 		}
 
+		drawOutline(buttons[activeButton], White);
+
 		drawText("Select Rule", ruleFont, White, title[0]);
 		drawText("Custom", ruleFont, White, title[1]);
+
+		drawText("B3/S23", ruleFont, Black, buttons[0]);
+		drawText("B36/S23", ruleFont, Black, buttons[1]);
+		drawText("B2/S", ruleFont, Black, buttons[2]);
+		drawText("B1357/S1357", ruleFont, Black, buttons[3]);
 		
-		ruleInput();
+		switch(ruleInput(buttons)){
+			case 0:
+				setRule("3", "23");
+				activeButton = 0;
+				break;
+			case 1:
+				setRule("36", "23");
+				activeButton = 1;
+				break;
+			case 2:
+				setRule("2", "");
+				activeButton = 2;
+				break;
+			case 3:
+				setRule("1357", "1357");
+				activeButton = 3;
+				break;
+			default:
+				break;
+		}
 
 		presentScene();
 		
@@ -195,14 +222,28 @@ void getRule(void){
 	free(buttons);
 }
 
+void setRule(char* b, char* s){
+	rule->blen = strlen(b);
+	rule->b = realloc(rule->b, rule->blen * sizeof *rule->b);
+	for(int i=0; i<rule->blen; i++){
+		rule->b[i] = b[i]-48;
+	}
+
+	rule->slen = strlen(s);
+	rule->s = realloc(rule->s, rule->slen * sizeof *rule->s);
+	for(int i=0; i<rule->slen; i++){
+		rule->s[i] = s[i]-48;
+	}
+}
+
 void displayGrid(Grid grid){
 	/*
 	Display the grid
 	*/
 	// Check if grid offset is out of bounds and correct if necessary
-	double originBound = MARGIN/2*cellSize;
-	double xBound = (cols-MARGIN/2)*cellSize - SCREEN_WIDTH;
-	double yBound = (rows-MARGIN/2)*cellSize - SCREEN_HEIGHT;
+	double originBound = MARGIN/4*cellSize;
+	double xBound = (cols-MARGIN/4)*cellSize - SCREEN_WIDTH;
+	double yBound = (rows-MARGIN/4)*cellSize - SCREEN_HEIGHT;
 	gridOffX = gridOffX < originBound ? originBound : gridOffX;
 	gridOffY = gridOffY < originBound ? originBound : gridOffY;
 	gridOffX = gridOffX > xBound ? xBound : gridOffX;
@@ -228,8 +269,8 @@ void drawGrid(Grid* grid){
 	Grid drawing loop
 	*/
 	drawing = true;
-	gridOffX = 20*cellSize;
-	gridOffY = 20*cellSize;
+	gridOffX = MARGIN/2*cellSize;
+	gridOffY = MARGIN/2*cellSize;
 	cellSize = DEFAULT_CELLSIZE;
 	while(drawing){
 		prepareScene(Black);

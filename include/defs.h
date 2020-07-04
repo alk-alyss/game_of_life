@@ -8,11 +8,11 @@
 
 #define DEFUALT_OFFSET 300
 
-#define MARGIN 50
+#define MARGIN 200
 
 #define MENU_BUTTONS 4
 
 #define RULE_TEXT 2
-#define RULE_BUTTONS 3
+#define RULE_BUTTONS 4
 
 #endif
