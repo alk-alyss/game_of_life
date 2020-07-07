@@ -14,5 +14,9 @@
 
 #define RULE_TEXT 2
 #define RULE_BUTTONS 4
+#define RULE_INPUTS 2
+
+#define MIN(X,Y) (X)<(Y)?(X):(Y)
+#define MAX(X,Y) (X)>(Y)?(X):(Y)
 
 #endif

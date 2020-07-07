@@ -3,6 +3,7 @@
 #include "input.h"
 
 void zoomGrid(Grid* grid, SDL_Event event);
+int compChars(const void* a, const void* b);
 
 void mainInput(Grid* grid){
 	/*
@@ -161,11 +162,13 @@ void gridInput(Grid* grid){
 	}
 }
 
-Sint8 ruleInput(SDL_Rect* buttons){
+Sint8 ruleInput(SDL_Rect* buttons, SDL_Rect* inputs, char** bs){
 	/*
 	Rule selection event handler
 	*/
 	SDL_Event event;
+	static Sint8 activeInput = -1;
+	Sint8 result = -1;
 	
 	while(SDL_PollEvent(&event)){
 		switch(event.type){
@@ -174,29 +177,90 @@ Sint8 ruleInput(SDL_Rect* buttons){
 				break;
 
 			case SDL_KEYDOWN:
-				switch(event.key.keysym.sym){
-					case SDLK_ESCAPE:
-						// ESC = exit to main menu
-						gettingRule = false;
-						running = false;
-						break;
+				if(event.key.keysym.sym == SDLK_ESCAPE){
+					gettingRule = false;
+					running = false;
 				}
+				if(activeInput > -1){
+					Uint64 keycode = event.key.keysym.sym;
+					Uint64 length;
+					// Delete all numbers in active input field
+					if(keycode == SDLK_DELETE){
+						bs[activeInput] = realloc(bs[activeInput], sizeof (char));
+						bs[activeInput][0] = '\0';
+						return result;
+					}
+					// Delete last number in active input field
+					else if(keycode == SDLK_BACKSPACE){
+						length = strlen(bs[activeInput]);
+						if(length == 0) return result;
+						bs[activeInput] = realloc(bs[activeInput], length * sizeof (char));
+						bs[activeInput][length-1] = '\0';
+						return result;
+					}
+					// Convert keypad number codes to ASCII
+					else if(keycode-(1<<30) >= 89 && keycode-(1<<30) <= 98){
+						keycode -= 0x40000059;
+						keycode = keycode == 9 ? 0 : keycode + 1;
+						keycode += 48;
+					}
+					// Ignore all keys except numbers
+					else if(keycode < 48 || keycode > 57){
+						return result;
+					}
+
+					length = strlen(bs[activeInput]);
+
+					// Check that the key pressed is not already stored
+					for(Uint64 i=0; i<length; i++){
+						if(keycode == bs[activeInput][i]) return result;
+					}
+
+					// Append character to string and sort characters
+					// bs[activeInput] = realloc(bs[activeInput], length+1);
+					bs[activeInput][length] = (char) keycode;
+					qsort(bs[activeInput], length+1, sizeof(char), compChars);
+					bs[activeInput] = realloc(bs[activeInput], (length+2) * sizeof (char));
+					bs[activeInput][length+1] = '\0';
+				}
+
 				break;
 
+
 			case SDL_MOUSEBUTTONDOWN:;
-				// Determine what button is pressed and return its index
+				// Determine what button/input is selected and return its index
 				SDL_Point mouse = {event.button.x, event.button.y};
 				if(SDL_PointInRect(&mouse, &buttons[0])){
-					return 0;
+					activeInput = -1;
+					strcpy(bs[0], "3");
+					strcpy(bs[1], "23");
+					result = 0;
 				}
 				else if(SDL_PointInRect(&mouse, &buttons[1])){
-					return 1;
+					activeInput = -1;
+					strcpy(bs[0], "36");
+					strcpy(bs[1], "23");
+					result = 1;
 				}
 				else if(SDL_PointInRect(&mouse, &buttons[2])){
-					return 2;
+					activeInput = -1;
+					strcpy(bs[0], "2");
+					strcpy(bs[1], "");
+					result = 2;
 				}
 				else if(SDL_PointInRect(&mouse, &buttons[3])){
-					return 3;
+					activeInput = -1;
+					strcpy(bs[0], "1357");
+					strcpy(bs[1], "1357");
+					result = 3;
+				}
+				else if(SDL_PointInRect(&mouse, &inputs[0])){
+					activeInput = 0;
+					result = 4;
+				}
+				else if(SDL_PointInRect(&mouse, &inputs[1])){
+					activeInput = 1;
+					result = 5;
 				}
 				break;			
 			
@@ -204,7 +268,7 @@ Sint8 ruleInput(SDL_Rect* buttons){
 				break;
 		}
 	}
-	return -1;
+	return result;
 }
 
 void zoomGrid(Grid* grid, SDL_Event event){
@@ -251,4 +315,8 @@ void zoomGrid(Grid* grid, SDL_Event event){
 	// }
 
 	moveGrid(0, 0);
+}
+
+int compChars(const void* a, const void* b){
+	return (*(char*)a - *(char*)b);
 }

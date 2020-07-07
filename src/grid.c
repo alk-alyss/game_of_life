@@ -22,8 +22,8 @@ Grid initGrid(Uint64 _rows, Uint64 _cols){
 }
 
 void initOffset(void){
-	gridOffX = MARGIN/2;
-	gridOffY = MARGIN/2;
+	gridOffX = MARGIN/2*cellSize;
+	gridOffY = MARGIN/2*cellSize;
 }
 
 Grid resizeGrid(Grid grid, Uint64 _rows, Uint64 _cols){
@@ -170,18 +170,48 @@ void getRule(void){
 		buttons[i].y = SCREEN_HEIGHT/8 * 3 - buttons[i].h/2;
 	}
 
+	SDL_Rect* inputs = calloc(RULE_INPUTS, sizeof *inputs);
+	for(Uint8 i=0; i<RULE_INPUTS; i++){
+		inputs[i].h = 100;
+		inputs[i].w = 200;
+		inputs[i].x = SCREEN_WIDTH/(RULE_INPUTS+1) * (i+1) - inputs[i].w/2;
+		inputs[i].y = SCREEN_HEIGHT/8 * 6 - inputs[i].h/2;
+	}
+
 	// Rule selection loop
 	gettingRule = true;
-	Sint8 activeButton = 0;
-	while(gettingRule){
+	static Sint8 activeButton = 0;
+	static Sint8 activeInput = -1;
+	char** bs = malloc(2 * sizeof *bs);
+	bs[0] = calloc(1, sizeof **bs);
+	bs[1] = calloc(1, sizeof **bs);
 
+	// Get b rule
+	for(Uint8 i=0; i<rule->blen; i++){
+		Uint64 length = strlen(bs[0]);
+		bs[0] = realloc(bs[0], (length+2) * sizeof (char));
+		bs[0][length] = rule->b[i]+48;
+		bs[0][length+1] = '\0';
+	}
+
+	// Get s rule
+	for(Uint8 i=0; i<rule->slen; i++){
+		Uint64 length = strlen(bs[1]);
+		bs[1] = realloc(bs[1], (length+2) * sizeof (char));
+		bs[1][length] = rule->s[i]+48;
+		bs[1][length+1] = '\0';
+	}
+
+	while(gettingRule){
 		prepareScene(Black);
 
 		for(Uint8 i=0; i<RULE_BUTTONS; i++){
 			drawRect(buttons[i], White);
 		}
 
-		drawOutline(buttons[activeButton], White);
+		for(Uint8 i=0; i<RULE_INPUTS; i++){
+			drawRect(inputs[i], White);
+		}
 
 		drawText("Select Rule", ruleFont, White, title[0]);
 		drawText("Custom", ruleFont, White, title[1]);
@@ -191,26 +221,47 @@ void getRule(void){
 		drawText("B2/S", ruleFont, Black, buttons[2]);
 		drawText("B1357/S1357", ruleFont, Black, buttons[3]);
 		
-		switch(ruleInput(buttons)){
+		switch(ruleInput(buttons, inputs, bs)){
 			case 0:
-				setRule("3", "23");
 				activeButton = 0;
+				activeInput = -1;
 				break;
 			case 1:
-				setRule("36", "23");
 				activeButton = 1;
+				activeInput = -1;
 				break;
 			case 2:
-				setRule("2", "");
 				activeButton = 2;
+				activeInput = -1;
 				break;
 			case 3:
-				setRule("1357", "1357");
 				activeButton = 3;
+				activeInput = -1;
+				break;
+			case 4:
+				activeButton = -1;
+				activeInput = 0;
+				break;
+			case 5:
+				activeButton = -1;
+				activeInput = 1;
 				break;
 			default:
 				break;
 		}
+
+		drawText(bs[0], ruleFont, Black, inputs[0]);
+		drawText(bs[1], ruleFont, Black, inputs[1]);
+
+		if(activeButton > -1){
+			drawOutline(buttons[activeButton], White);
+		}
+
+		if(activeInput > -1){
+			drawOutline(inputs[activeInput], White);
+		}
+
+		setRule(bs[0], bs[1]);
 
 		presentScene();
 		
@@ -218,6 +269,7 @@ void getRule(void){
 	}
 
 	// Free resources
+	free(bs);
 	free(title);
 	free(buttons);
 }
@@ -269,8 +321,7 @@ void drawGrid(Grid* grid){
 	Grid drawing loop
 	*/
 	drawing = true;
-	gridOffX = MARGIN/2*cellSize;
-	gridOffY = MARGIN/2*cellSize;
+	initOffset();
 	cellSize = DEFAULT_CELLSIZE;
 	while(drawing){
 		prepareScene(Black);
